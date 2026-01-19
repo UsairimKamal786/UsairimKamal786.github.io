@@ -5,35 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usairim Web Tech Games</title>
     <style>
+        /* General body style */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            background-color: #f0f0f0;
-            padding-top: 100px;
         }
+
         h1 {
-            color: #333;
+            font-size: 3rem;
+            color: #00ffea;
+            text-shadow: 2px 2px 8px #00ffea, 0 0 20px #00ffea;
+            margin-bottom: 20px;
         }
+
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 50px;
+            color: #ffffffaa;
+        }
+
+        /* Stylish neon buttons */
         .button {
             display: inline-block;
-            margin: 20px;
-            padding: 15px 30px;
-            font-size: 18px;
+            margin: 15px;
+            padding: 20px 50px;
+            font-size: 1.5rem;
             text-decoration: none;
-            color: white;
-            background-color: #007BFF;
-            border-radius: 10px;
-            transition: background-color 0.3s;
+            color: #00ffea;
+            border: 2px solid #00ffea;
+            border-radius: 15px;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
+
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 255, 234, 0.2);
+            transition: 0.4s;
+            transform: skewX(-20deg);
+        }
+
+        .button:hover::before {
+            left: 200%;
+        }
+
         .button:hover {
-            background-color: #0056b3;
+            background-color: #00ffea10;
+            color: #fff;
+            box-shadow: 0 0 20px #00ffea, 0 0 40px #00ffea;
+            border-color: #00ffea;
+        }
+
+        /* Footer style */
+        footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.9rem;
+            color: #ffffff66;
         }
     </style>
 </head>
 <body>
     <h1>Welcome to Usairim Web Tech Games</h1>
     <p>Choose your adventure:</p>
-    <a href="https://usairimkamal786.github.io/Games/" class="button">Games</a>
-    <a href="https://usairimkamal786.github.io/Agents/" class="button">Agents</a>
+    <a href="games.html" class="button">Games</a>
+    <a href="agents.html" class="button">Agents</a>
+
+    <footer>© Usairim Kamal. All rights reserved.</footer>
 </body>
 </html>
