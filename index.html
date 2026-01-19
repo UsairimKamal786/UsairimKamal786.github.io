@@ -85,9 +85,14 @@
 <body>
     <h1>Welcome to Usairim Web Tech Games</h1>
     <p>Choose your adventure:</p>
-    <a href="usairimkamal786.github.io/Games" class="button">Games</a>
-    <a href="usairimkamal786.github.io/Agents" class="button">Agents</a>
+    <a href="https://usairimkamal786.github.io/Games" class="button">Games</a>
+    <a href="https://usairimkamal786.github.io/Agents" class="button">Agents</a>
 
-    <footer>© Usairim Kamal. All rights reserved.</footer>
+    <footer>© <span id="year"></span> Usairim Kamal. All rights reserved.</footer>
+
+    <script>
+        // This will automatically update the year in the footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
