@@ -6,7 +6,6 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Simple modern styling -->
     <style>
         body {
             margin: 0;
@@ -16,7 +15,6 @@
             height: 100vh;
         }
 
-        /* Top-left corner buttons */
         .top-left {
             position: fixed;
             top: 15px;
@@ -41,7 +39,6 @@
             color: #203a43;
         }
 
-        /* Center content */
         .center {
             height: 100%;
             display: flex;
@@ -51,16 +48,8 @@
             text-align: center;
         }
 
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-
-        p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 500px;
-        }
+        h1 { font-size: 3rem; margin-bottom: 10px; }
+        p { font-size: 1.2rem; opacity: 0.9; max-width: 500px; }
 
         footer {
             position: fixed;
@@ -74,13 +63,11 @@
 </head>
 <body>
 
-    <!-- Top-left navigation -->
     <div class="top-left">
         <a href="https://usairimkamal786.github.io/Games" target="_blank">🎮 Games</a>
         <a href="https://usairimkamal786.github.io/Agents" target="_blank">🤖 Agents</a>
     </div>
 
-    <!-- Main content -->
     <div class="center">
         <h1>Usairim Web Tech</h1>
         <p>
@@ -89,29 +76,25 @@
         </p>
     </div>
 
-    <!-- Footer with global counter -->
     <footer>
         Views: <span id="viewCount">Loading...</span> | © <span id="year"></span> Usairim Web Tech. All rights reserved.
     </footer>
 
-    <!-- CounterAPI script -->
-    <script type="module">
-        import { Counter } from 'https://cdn.jsdelivr.net/npm/counterapi/dist/counter.esm.min.js';
+    <script>
+        // CounterAPI fetch version (no modules, no axios)
+        const workspace = 'usairim-webtech';
+        const counterSlug = 'page-views-usairim-web-tech';
 
-        // Workspace slug (must match CounterAPI workspace)
-        const counter = new Counter({ workspace: 'usairim-webtech' });
-
-        // Increment the global page view counter on every page load
-        counter.up('page-views-usairim-web-tech')
-            .then(result => {
-                document.getElementById('viewCount').textContent = result.value;
+        fetch(`https://api.counterapi.dev/${workspace}/${counterSlug}/up`)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('viewCount').textContent = data.value;
             })
-            .catch(error => {
+            .catch(err => {
                 document.getElementById('viewCount').textContent = "Error";
-                console.error('CounterAPI error:', error);
+                console.error('CounterAPI fetch error:', err);
             });
 
-        // Show current year
         document.getElementById("year").textContent = new Date().getFullYear();
     </script>
 
