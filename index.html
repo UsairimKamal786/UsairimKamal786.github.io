@@ -89,7 +89,7 @@
         </p>
     </div>
 
-    <!-- Footer -->
+    <!-- Footer with global counter -->
     <footer>
         Views: <span id="viewCount">Loading...</span> | © <span id="year"></span> Usairim Web Tech. All rights reserved.
     </footer>
@@ -98,17 +98,17 @@
     <script type="module">
         import { Counter } from 'https://cdn.jsdelivr.net/npm/counterapi/dist/counter.esm.min.js';
 
-        // Initialize counter with your workspace
-        const counter = new Counter({ workspace: 'usairim-kamal-azfar-wakeels-team' });
+        // Workspace slug (must match CounterAPI workspace)
+        const counter = new Counter({ workspace: 'usairim-webtech' });
 
-        // Increment counter every page load
+        // Increment the global page view counter on every page load
         counter.up('page-views-usairim-web-tech')
             .then(result => {
                 document.getElementById('viewCount').textContent = result.value;
             })
             .catch(error => {
                 document.getElementById('viewCount').textContent = "Error";
-                console.error(error);
+                console.error('CounterAPI error:', error);
             });
 
         // Show current year
