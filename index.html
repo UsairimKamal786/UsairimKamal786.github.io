@@ -77,23 +77,23 @@
     </div>
 
     <footer>
-        Views: <span id="viewCount">Loading...</span> | © <span id="year"></span> Usairim Web Tech. All rights reserved.
+       <!-- Views: <span id="viewCount">Loading...</span> | -->© <span id="year"></span> Usairim Web Tech. All rights reserved.
     </footer>
 
     <script>
         // CounterAPI fetch version (no modules, no axios)
-        const workspace = 'usairim-webtech';
-        const counterSlug = 'page-views-usairim-web-tech';
+      //  const workspace = 'usairim-webtech';
+      //  const counterSlug = 'page-views-usairim-web-tech';
 
-        fetch(`https://api.counterapi.dev/${workspace}/${counterSlug}/up`)
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('viewCount').textContent = data.value;
-            })
-            .catch(err => {
-                document.getElementById('viewCount').textContent = "Error";
-                console.error('CounterAPI fetch error:', err);
-            });
+      //  fetch(`https://api.counterapi.dev/${workspace}/${counterSlug}/up`)
+         //   .then(res => res.json())
+           // .then(data => {
+            //    document.getElementById('viewCount').textContent = data.value;
+           // })
+           // .catch(err => {
+                //document.getElementById('viewCount').textContent = "Error";
+               // console.error('CounterAPI fetch error:', err);
+           // });
 
         document.getElementById("year").textContent = new Date().getFullYear();
     </script>
