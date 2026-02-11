@@ -91,11 +91,25 @@
 
     <!-- Footer -->
     <footer>
-        © <span id="year"></span> Usairim Web Tech. All rights reserved.
+        Views: <span id="viewCount">0</span> | © <span id="year"></span> Usairim Web Tech. All rights reserved.
     </footer>
 
     <script>
+        // Show current year
         document.getElementById("year").textContent = new Date().getFullYear();
+
+        // Views counter (counts once per device)
+        let views = localStorage.getItem("views");
+
+        if (!views) {
+            // First visit from this device
+            views = 1;
+            localStorage.setItem("views", views);
+        } else {
+            views = parseInt(views);
+        }
+
+        document.getElementById("viewCount").textContent = views;
     </script>
 
 </body>
