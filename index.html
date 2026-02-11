@@ -68,7 +68,7 @@
             width: 100%;
             text-align: center;
             font-size: 0.9rem;
-            opacity: 0.7;
+            opacity: 0.9;
         }
     </style>
 </head>
@@ -91,25 +91,28 @@
 
     <!-- Footer -->
     <footer>
-        Views: <span id="viewCount">0</span> | © <span id="year"></span> Usairim Web Tech. All rights reserved.
+        Views: <span id="viewCount">Loading...</span> | © <span id="year"></span> Usairim Web Tech. All rights reserved.
     </footer>
 
-    <script>
+    <!-- CounterAPI script -->
+    <script type="module">
+        import { Counter } from 'https://cdn.jsdelivr.net/npm/counterapi/dist/counter.esm.min.js';
+
+        // Initialize counter with your workspace
+        const counter = new Counter({ workspace: 'usairim-kamal-azfar-wakeels-team' });
+
+        // Increment counter every page load
+        counter.up('page-views-usairim-web-tech')
+            .then(result => {
+                document.getElementById('viewCount').textContent = result.value;
+            })
+            .catch(error => {
+                document.getElementById('viewCount').textContent = "Error";
+                console.error(error);
+            });
+
         // Show current year
         document.getElementById("year").textContent = new Date().getFullYear();
-
-        // Views counter (counts once per device)
-        let views = localStorage.getItem("views");
-
-        if (!views) {
-            // First visit from this device
-            views = 1;
-            localStorage.setItem("views", views);
-        } else {
-            views = parseInt(views);
-        }
-
-        document.getElementById("viewCount").textContent = views;
     </script>
 
 </body>
