@@ -5,7 +5,7 @@
   <title>Usairim Web Tech</title>
   <link rel="icon" type="image/png" href="favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://www.google.com/recaptcha/api.js?render=6LcrWm4sAAAAAPufs6gwRM2XaaFYLpvzg5m5Z_LQ"></script>
+ <!-- <script src="https://www.google.com/recaptcha/api.js?render=6LcrWm4sAAAAAPufs6gwRM2XaaFYLpvzg5m5Z_LQ"></script>-->
   <style>
     body {
       margin: 0;
@@ -64,7 +64,7 @@
   <div class="center">
     <h1>Usairim Web Tech</h1>
     <p>Building clean web tools, smart agents, and fun games. Old fundamentals. New energy. Code that actually works.</p>
-    <p>Views: <span id="viewCount">Loading...</span></p>
+   <!-- <p>Views: <span id="viewCount">Loading...</span></p>-->
   </div>
 
   <footer>© <span id="year"></span> Usairim Web Tech. All rights reserved.</footer>
@@ -72,7 +72,7 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    async function updateViews(token) {
+/*    async function updateViews(token) {
       try {
         const res = await fetch('https://usairimwebtech.usairimkamal2016.workers.dev', {
           method: 'POST',
@@ -88,7 +88,7 @@
 
     grecaptcha.ready(() => {
       grecaptcha.execute('6LcrWm4sAAAAAPufs6gwRM2XaaFYLpvzg5m5Z_LQ', { action: 'homepage' }).then(updateViews);
-    });
+    }); */
   </script>
 </body>
 </html>
