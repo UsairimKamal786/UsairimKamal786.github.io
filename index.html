@@ -1,102 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Usairim Web Tech</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: white;
-            height: 100vh;
-        }
-
-        .top-left {
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .top-left a {
-            text-decoration: none;
-            padding: 10px 16px;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            color: white;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .top-left a:hover {
-            background: white;
-            color: #203a43;
-        }
-
-        .center {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        h1 { font-size: 3rem; margin-bottom: 10px; }
-        p { font-size: 1.2rem; opacity: 0.9; max-width: 500px; }
-
-        footer {
-            position: fixed;
-            bottom: 10px;
-            width: 100%;
-            text-align: center;
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Usairim Web Tech</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://www.google.com/recaptcha/api.js?render=YOUR_SITE_KEY"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      height: 100vh;
+    }
+    .top-left {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      display: flex;
+      gap: 10px;
+    }
+    .top-left a {
+      text-decoration: none;
+      padding: 10px 16px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .top-left a:hover {
+      background: white;
+      color: #203a43;
+    }
+    .center {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    h1 { font-size: 3rem; margin-bottom: 10px; }
+    p { font-size: 1.2rem; opacity: 0.9; max-width: 500px; }
+    footer {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+  </style>
 </head>
 <body>
+  <div class="top-left">
+    <a href="https://usairimkamal786.github.io/Games" target="_blank">🎮 Games</a>
+    <a href="https://usairimkamal786.github.io/Agents" target="_blank">🤖 Agents</a>
+  </div>
 
-    <div class="top-left">
-        <a href="https://usairimkamal786.github.io/Games" target="_blank">🎮 Games</a>
-        <a href="https://usairimkamal786.github.io/Agents" target="_blank">🤖 Agents</a>
-    </div>
+  <div class="center">
+    <h1>Usairim Web Tech</h1>
+    <p>Building clean web tools, smart agents, and fun games. Old fundamentals. New energy. Code that actually works.</p>
+    <p>Views: <span id="viewCount">Loading...</span></p>
+  </div>
 
-    <div class="center">
-        <h1>Usairim Web Tech</h1>
-        <p>
-            Building clean web tools, smart agents, and fun games.  
-            Old fundamentals. New energy. Code that actually works.
-        </p>
-    </div>
+  <footer>© <span id="year"></span> Usairim Web Tech. All rights reserved.</footer>
 
-    <footer>
-       <!-- Views: <span id="viewCount">Loading...</span> | -->© <span id="year"></span> Usairim Web Tech. All rights reserved.
-    </footer>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
 
-    <script>
-        // CounterAPI fetch version (no modules, no axios)
-      //  const workspace = 'usairim-webtech';
-      //  const counterSlug = 'page-views-usairim-web-tech';
+    async function updateViews(token) {
+      try {
+        const res = await fetch('https://usairimwebtech.usairimkamal2016.workers.dev', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token })
+        });
+        const data = await res.json();
+        document.getElementById("viewCount").textContent = data.views || "Error";
+      } catch {
+        document.getElementById("viewCount").textContent = "Error";
+      }
+    }
 
-      //  fetch(`https://api.counterapi.dev/${workspace}/${counterSlug}/up`)
-         //   .then(res => res.json())
-           // .then(data => {
-            //    document.getElementById('viewCount').textContent = data.value;
-           // })
-           // .catch(err => {
-                //document.getElementById('viewCount').textContent = "Error";
-               // console.error('CounterAPI fetch error:', err);
-           // });
-
-        document.getElementById("year").textContent = new Date().getFullYear();
-    </script>
-
+    grecaptcha.ready(() => {
+      grecaptcha.execute('YOUR_SITE_KEY', { action: 'homepage' }).then(updateViews);
+    });
+  </script>
 </body>
 </html>
