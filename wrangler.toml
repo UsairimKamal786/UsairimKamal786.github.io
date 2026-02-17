@@ -1,0 +1,9 @@
+name = "usairimwebtech"
+compatibility_date = "2026-02-17"
+main = "worker.js"
+
+kv_namespaces = [
+  { binding = "VIEWS", id = "3f4ad2ad1bf04887a1d3cab2d54bbc2d" }
+]
+
+vars = { RECAPTCHA_SECRET = "6LcrWm4sAAAAAIPsLO3s7YyJ96q9HtUb0eJr51yd" }
