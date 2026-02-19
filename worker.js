@@ -1,3 +1,4 @@
+//This file is currently closed
 export default {
   async fetch(request, env) {
     // Only allow POST requests
