@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easter Egg Painting Game</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .egg { width: 100px; height: 130px; background: url('https://example.com/egg.png') no-repeat center center; background-size: contain; }
+        .color-button { width: 40px; height: 40px; display: inline-block; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Easter Egg Painting Game</h1>
+    <div class="egg" id="egg"></div>
+    <div>
+        <div class="color-button" style="background-color: red;" onclick="paint('red')"></div>
+        <div class="color-button" style="background-color: blue;" onclick="paint('blue')"></div>
+        <div class="color-button" style="background-color: yellow;" onclick="paint('yellow')"></div>
+        <div class="color-button" style="background-color: green;" onclick="paint('green')"></div>
+    </div>
+    <script>
+        function paint(color) {
+            document.getElementById('egg').style.backgroundColor = color;
+        }
+    </script>
+</body>
+</html>
