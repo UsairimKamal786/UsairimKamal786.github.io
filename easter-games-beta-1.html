@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easter Egg Hunt Game</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .egg { width: 50px; height: 70px; background-color: lightpink;
+            border-radius: 30px; position: absolute; cursor: pointer; }
+        #game-area { position: relative; width: 100%; height: 500px;
+            border: 1px solid #ccc; overflow: hidden; }
+        #score { font-size: 24px; }
+    </style>
+</head>
+<body>
+    <h1>Easter Egg Hunt Game</h1>
+    <div id="score">Score: 0</div>
+    <div id="game-area"></div>
+    <script>
+        let score = 0;
+        const gameArea = document.getElementById('game-area');
+        const scoreDisplay = document.getElementById('score');
+        const eggCount = 5;
+
+        function createEgg() {
+            const egg = document.createElement('div');
+            egg.className = 'egg';
+            egg.style.top = Math.random() * (gameArea.clientHeight - 70) + 'px';
+            egg.style.left = Math.random() * (gameArea.clientWidth - 50) + 'px';
+            egg.addEventListener('click', () => {
+                score += 10;
+                scoreDisplay.innerHTML = 'Score: ' + score;
+                gameArea.removeChild(egg);
+                createEgg();
+            });
+            gameArea.appendChild(egg);
+        }
+
+        for (let i = 0; i < eggCount; i++) {
+            createEgg();
+        }
+    </script>
+</body>
+</html>
