@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easter Basket Toss</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #eef;
+            font-family: Arial, sans-serif;
+        }
+        #gameArea {
+            width: 80%;
+            height: 500px;
+            border: 2px solid #333;
+            position: relative;
+            overflow: hidden;
+            background-color: #fff;
+        }
+        .basket {
+            width: 100px;
+            height: 50px;
+            background-color: #8B4513;
+            position: absolute;
+            bottom: 0;
+            left: calc(50% - 50px);
+            border-radius: 50% 50% 0 0;
+        }
+        .egg {
+            width: 20px;
+            height: 30px;
+            background-color: yellow;
+            border-radius: 50%;
+            position: absolute;
+            transition: transform 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <h1>Easter Basket Toss Game</h1>
+    <div id="gameArea">
+        <div class="basket" id="basket"></div>
+        <div class="egg" id="egg" style="display: none;"></div>
+    </div>
+    <button onclick="throwEgg()">Throw Egg</button>
+    <p id="score">Score: 0</p>
+
+    <script>
+        let score = 0;
+        const basket = document.getElementById('basket');
+        const egg = document.getElementById('egg');
+        const scoreDisplay = document.getElementById('score');
+
+        function throwEgg() {
+            egg.style.left = `${Math.random() * (gameArea.clientWidth - 20)}px`;
+            egg.style.top = '0';
+            egg.style.display = 'block';
+            egg.style.transform = 'translateY(400px)';
+
+            setTimeout(() => {
+                const eggPosition = egg.getBoundingClientRect();
+                const basketPosition = basket.getBoundingClientRect();
+                if (eggPosition.bottom >= basketPosition.top &&
+                    eggPosition.left >= basketPosition.left &&
+                    eggPosition.right <= basketPosition.right) {
+                    score += 10;
+                }
+                scoreDisplay.innerText = `Score: ${score}`;
+                egg.style.display = 'none';
+                egg.style.transform = 'none';
+            }, 500);
+        }
+    </script>
+</body>
+</html>
