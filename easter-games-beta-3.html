@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easter Bunny Running Game</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #gameCanvas { border: 1px solid black; }
+    </style>
+</head>
+<body>
+    <h1>Easter Bunny Running Game</h1>
+    <canvas id="gameCanvas" width="600" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let bunny = { x: 50, y: 300, width: 50, height: 50 };
+        let eggs = []; // Array to store eggs
+        let obstacles = []; // Array to store obstacles
+        let score = 0;
+        let gameOver = false;
+
+        function drawBunny() {
+            ctx.fillStyle = 'brown';
+            ctx.fillRect(bunny.x, bunny.y, bunny.width, bunny.height);
+        }
+
+        function drawEgg(egg) {
+            ctx.fillStyle = 'yellow';
+            ctx.beginPath();
+            ctx.arc(egg.x, egg.y, egg.radius, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawObstacle(obstacle) {
+            ctx.fillStyle = 'red';
+            ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        }
+
+        function spawnEgg() {
+            let egg = { x: Math.random() * canvas.width, y: Math.random() * canvas.height, radius: 10 };
+            eggs.push(egg);
+        }
+
+        function spawnObstacle() {
+            let obstacle = { x: canvas.width, y: canvas.height - 50, width: 50, height: 50 };
+            obstacles.push(obstacle);
+        }
+
+        function update() {
+            if (!gameOver) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                drawBunny();
+                eggs.forEach(drawEgg);
+                obstacles.forEach(drawObstacle);
+                requestAnimationFrame(update);
+            }
+        }
+
+        function checkCollision(obj1, obj2) {
+            return obj1.x < obj2.x + obj2.width &&
+                   obj1.x + obj1.width > obj2.x &&
+                   obj1.y < obj2.y + obj2.height &&
+                   obj1.y + obj1.height > obj2.y;
+        }
+
+        function gameLoop() {
+            if (!gameOver) {
+                if (Math.random() < 0.05) spawnEgg(); // 5% chance to spawn an egg
+                if (Math.random() < 0.02) spawnObstacle(); // 2% chance to spawn an obstacle
+                eggs.forEach(egg => {
+                    if (checkCollision(bunny, egg)) {
+                        score += 10;
+                        eggs.splice(eggs.indexOf(egg), 1); // Remove collected egg
+                    }
+                });
+                obstacles.forEach(obstacle => {
+                    if (checkCollision(bunny, obstacle)) {
+                        gameOver = true;
+                        alert('Game Over! Your score: ' + score);
+                    }
+                });
+            }
+            setTimeout(gameLoop, 1000);
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp') bunny.y -= 10;
+            if (e.key === 'ArrowDown') bunny.y += 10;
+            if (e.key === 'ArrowLeft') bunny.x -= 10;
+            if (e.key === 'ArrowRight') bunny.x += 10;
+        });
+
+        update();
+        gameLoop();
+    </script>
+</body>
+</html>
