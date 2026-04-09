@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easter Memory Card Matching Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f8ff;
+        }
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            gap: 10px;
+        }
+        .card {
+            width: 100px;
+            height: 100px;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+        .card.flipped .front {
+            transform: rotateY(0);
+        }
+        .card.flipped .back {
+            transform: rotateY(180deg);
+        }
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .back {
+            transform: rotateY(180deg);
+            background-color: #98fb98;
+        }
+    </style>
+</head>
+<body>
+    <h1>Easter Memory Card Matching Game</h1>
+    <div class="game-board" id="gameBoard"></div>
+    <script>
+        const images = [
+            '🐰', '🐣', '🥚', '🌷',
+            '🐰', '🐣', '🥚', '🌷'
+        ];
+        let cards = [];  
+        let firstCard, secondCard;
+        let lockBoard = false;
+        let matchesFound = 0;
+        const totalMatches = images.length / 2;
+
+        function createCard(image) {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            const front = document.createElement('div');
+            front.classList.add('front');
+            front.innerHTML = '';  
+            const back = document.createElement('div');
+            back.classList.add('back');
+            back.innerHTML = image;
+            card.appendChild(front);
+            card.appendChild(back);
+            card.addEventListener('click', flipCard);
+            return card;
+        }
+
+        function flipCard() {
+            if (lockBoard) return;
+            if (this === firstCard) return;
+
+            this.classList.add('flipped');
+            if (!firstCard) {
+                firstCard = this;
+                return;
+            }
+            secondCard = this;
+            lockBoard = true;
+            checkForMatch();
+        }
+
+        function checkForMatch() {
+            const isMatch = firstCard.querySelector('.back').innerHTML === secondCard.querySelector('.back').innerHTML;
+            isMatch ? disableCards() : unflipCards();
+        }
+
+        function disableCards() {
+            matchesFound++;
+            if (matchesFound === totalMatches) {
+                alert('Congratulations! You found all the matches!');
+            }
+            resetBoard();
+        }
+
+        function unflipCards() {
+            setTimeout(() => {
+                firstCard.classList.remove('flipped');
+                secondCard.classList.remove('flipped');
+                resetBoard();
+            }, 1500);
+        }
+
+        function resetBoard() {
+            [firstCard, secondCard, lockBoard] = [null, null, false];
+        }
+
+        function shuffle(array) {
+            array.sort(() => Math.random() - 0.5);
+        }
+
+        function startGame() {
+            shuffle(images);
+            images.forEach(image => {
+                const card = createCard(image);
+                cards.push(card);
+                gameBoard.appendChild(card);
+            });
+        }
+
+        startGame();
+    </script>
+</body>
+</html>
