@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,91 +6,935 @@
   <title>Usairim Web Tech</title>
   <link rel="icon" type="image/png" href="favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <!-- <script src="https://www.google.com/recaptcha/api.js?render=6LcrWm4sAAAAAPufs6gwRM2XaaFYLpvzg5m5Z_LQ"></script>-->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
+    /* ─── RESET & BASE ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-deep:    #050c10;
+      --bg-mid:     #0a1a22;
+      --bg-panel:   rgba(255,255,255,0.04);
+      --border:     rgba(255,255,255,0.09);
+      --border-hi:  rgba(80,220,200,0.35);
+      --accent:     #3fffd8;
+      --accent2:    #ff6b35;
+      --accent3:    #a78bfa;
+      --text-hi:    #f0f8ff;
+      --text-mid:   rgba(200,225,235,0.75);
+      --text-low:   rgba(200,225,235,0.4);
+      --glow:       0 0 40px rgba(63,255,216,0.15);
+      --radius:     14px;
+      --radius-lg:  22px;
+      --nav-h:      70px;
+    }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: white;
-      height: 100vh;
+      font-family: 'Syne', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-hi);
+      min-height: 100vh;
+      overflow-x: hidden;
+      cursor: none;
     }
-    .top-left {
+
+    /* ─── CUSTOM CURSOR (CSS-only move, no rAF loop) ───────────── */
+    .cursor-dot {
       position: fixed;
-      top: 15px;
-      left: 15px;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s, left 0.04s linear, top 0.04s linear;
+      will-change: left, top;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(63,255,216,0.45);
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      /* CSS transition handles the lag effect — zero JS per frame */
+      transition: left 0.12s ease-out, top 0.12s ease-out,
+                  width 0.2s, height 0.2s, border-color 0.2s, opacity 0.3s;
+      will-change: left, top;
+    }
+    .cursor-ring.hovered {
+      width: 44px; height: 44px;
+      border-color: var(--accent);
+    }
+
+    /* ─── CANVAS BACKGROUND ────────────────────────────────────── */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* ─── NOISE TEXTURE OVERLAY ────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ─── NAV ───────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      z-index: 100;
       display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      background: rgba(5,12,16,0.6);
+      backdrop-filter: blur(20px) saturate(1.4);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
       gap: 10px;
-    }
-    .top-left a {
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -0.01em;
+      color: var(--text-hi);
       text-decoration: none;
-      padding: 10px 16px;
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .nav-brand .logo-mark {
+      width: 32px; height: 32px;
       border-radius: 8px;
-      color: white;
+      background: linear-gradient(135deg, var(--accent), var(--accent3));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem;
+      font-family: 'DM Mono', monospace;
+      color: #050c10;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .nav-links a {
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      color: var(--text-mid);
+      font-size: 0.9rem;
       font-weight: 600;
-      transition: all 0.3s ease;
+      border: 1px solid transparent;
+      transition: all 0.25s ease;
+      letter-spacing: 0.01em;
     }
-    .top-left a:hover {
-      background: white;
-      color: #203a43;
+    .nav-links a:hover {
+      color: var(--text-hi);
+      background: var(--bg-panel);
+      border-color: var(--border-hi);
     }
-    .center {
-      height: 100%;
+    .nav-links a .emoji { margin-right: 5px; }
+
+    /* ─── HERO ──────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: calc(var(--nav-h) + 40px) 24px 80px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding: 6px 14px;
+      border: 1px solid rgba(63,255,216,0.25);
+      border-radius: 100px;
+      background: rgba(63,255,216,0.06);
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.2s ease forwards;
+    }
+    .eyebrow-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.04em;
+      margin-bottom: 10px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.35s ease forwards;
+    }
+    .hero-title .line-1 { display: block; color: var(--text-hi); }
+    .hero-title .line-2 {
+      display: block;
+      background: linear-gradient(90deg, var(--accent) 0%, var(--accent3) 60%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+      font-weight: 300;
+      color: var(--text-mid);
+      max-width: 540px;
+      line-height: 1.7;
+      margin-top: 28px;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s ease forwards;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.65s ease forwards;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      font-family: 'Syne', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: all 0.25s ease;
+      border: 1px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: white;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .btn:hover::after { opacity: 0.07; }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #050c10;
+      box-shadow: 0 0 30px rgba(63,255,216,0.3), 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 50px rgba(63,255,216,0.45), 0 8px 30px rgba(0,0,0,0.5);
+    }
+
+    .btn-ghost {
+      background: var(--bg-panel);
+      color: var(--text-hi);
+      border-color: var(--border);
+    }
+    .btn-ghost:hover {
+      border-color: var(--border-hi);
+      transform: translateY(-2px);
+    }
+
+
+
+    /* ─── SECTION WRAPPER ───────────────────────────────────────── */
+    section {
+      position: relative;
+      z-index: 10;
+      padding: 100px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--text-mid);
+      max-width: 500px;
+      line-height: 1.7;
+      margin-bottom: 56px;
+    }
+
+    /* ─── CARDS GRID ────────────────────────────────────────────── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at top left, rgba(63,255,216,0.06), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .card:hover { border-color: var(--border-hi); transform: translateY(-4px); box-shadow: var(--glow); }
+    .card:hover::before { opacity: 1; }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 18px;
+      display: block;
+    }
+    .card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 10px;
+    }
+    .card p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--text-mid);
+      line-height: 1.65;
+    }
+
+    .card-tag {
+      display: inline-block;
+      margin-top: 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+      border: 1px solid var(--border-hi);
+      color: var(--accent);
+    }
+
+    /* ─── STAT STRIP ─────────────────────────────────────────────── */
+    .stat-strip {
+      position: relative;
+      z-index: 10;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-panel);
+      padding: 48px 24px;
+    }
+    .stat-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 40px;
       text-align: center;
     }
-    h1 { font-size: 3rem; margin-bottom: 10px; }
-    p { font-size: 1.2rem; opacity: 0.9; max-width: 500px; }
-    footer {
-      position: fixed;
-      bottom: 10px;
-      width: 100%;
+    .stat-item {}
+    .stat-number {
+      font-size: 2.6rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      background: linear-gradient(90deg, var(--accent), var(--accent3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+    }
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-low);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    /* ─── FEATURED PROJECTS ─────────────────────────────────────── */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .project-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+      gap: 16px;
+      transition: all 0.2s;
+      cursor: default;
+    }
+    .project-row:hover .project-name { color: var(--accent); }
+    .project-row:hover .project-arrow { transform: translateX(4px); opacity: 1; }
+
+    .project-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex: 1;
+      min-width: 0;
+    }
+    .project-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-low);
+      width: 28px;
+      flex-shrink: 0;
+    }
+    .project-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      transition: color 0.2s;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .project-desc {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-low);
+      margin-top: 2px;
+    }
+    .project-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .project-badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      color: var(--text-mid);
+    }
+    .project-arrow {
+      font-size: 1rem;
+      color: var(--accent);
+      opacity: 0;
+      transition: all 0.2s;
+    }
+
+    /* ─── TECH STACK ─────────────────────────────────────────────── */
+    .tech-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .tech-pill {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      padding: 8px 16px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text-mid);
+      transition: all 0.2s;
+      letter-spacing: 0.03em;
+    }
+    .tech-pill:hover {
+      background: rgba(63,255,216,0.08);
+      border-color: var(--border-hi);
+      color: var(--accent);
+    }
+
+    /* ─── CTA BANNER ─────────────────────────────────────────────── */
+    .cta-banner {
+      position: relative;
+      z-index: 10;
+      padding: 80px 24px;
+    }
+    .cta-inner {
+      max-width: 800px;
+      margin: 0 auto;
       text-align: center;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 64px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-inner::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: 50%;
+      transform: translateX(-50%);
+      width: 300px; height: 200px;
+      background: radial-gradient(ellipse, rgba(63,255,216,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-inner h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .cta-inner p {
+      font-family: 'DM Mono', monospace;
       font-size: 0.9rem;
-      opacity: 0.9;
+      color: var(--text-mid);
+      margin-bottom: 36px;
+      line-height: 1.65;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────────── */
+    footer {
+      position: relative;
+      z-index: 10;
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-left {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-low);
+    }
+    .footer-left strong { color: var(--text-mid); font-weight: 500; }
+    .footer-right {
+      display: flex;
+      gap: 20px;
+    }
+    .footer-right a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-low);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .footer-right a:hover { color: var(--accent); }
+
+    /* ─── DIVIDER ────────────────────────────────────────────────── */
+    .divider-line {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border-hi), transparent);
+      margin: 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* ─── ANIMATIONS ─────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-12px); }
+    }
+    @keyframes rotate-slow {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* ─── REVEAL ON SCROLL ───────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────────── */
+    @media (max-width: 680px) {
+      nav { padding: 0 16px; }
+      .nav-brand span.brand-text { display: none; }
+      .nav-links a { padding: 7px 10px; font-size: 0.82rem; }
+      .hero { padding: calc(var(--nav-h) + 24px) 16px 80px; }
+      .hero-ctas { gap: 10px; }
+      .btn { padding: 12px 20px; font-size: 0.85rem; }
+      section { padding: 60px 16px; }
+      .cta-inner { padding: 40px 24px; }
+      footer { flex-direction: column; align-items: center; text-align: center; }
     }
   </style>
 </head>
 <body>
-  <div class="top-left">
-    <a href="https://usairimkamal786.github.io/Games" target="_blank">🎮 Games</a>
-    <a href="https://usairimkamal786.github.io/Agents" target="_blank">🤖 Agents</a>
-    <a href=" https://usairimkamal786.github.io/Updates/" target="_blank">📢 Updates</a>
+
+  <!-- Custom cursor -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Animated canvas background -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- ── NAV ──────────────────────────────────────────────────── -->
+  <nav>
+    <a href="#" class="nav-brand">
+      <div class="logo-mark">UW</div>
+      <span class="brand-text">Usairim Web Tech</span>
+    </a>
+    <div class="nav-links">
+      <a href="https://usairimkamal786.github.io/Games" target="_blank"><span class="emoji">🎮</span>Games</a>
+      <a href="https://usairimkamal786.github.io/Agents" target="_blank"><span class="emoji">🤖</span>Agents</a>
+      <a href="https://usairimkamal786.github.io/Updates/" target="_blank"><span class="emoji">📢</span>Updates</a>
+    </div>
+  </nav>
+
+  <!-- ── HERO ─────────────────────────────────────────────────── -->
+  <div class="hero">
+    <div class="hero-eyebrow">
+      <span class="eyebrow-dot"></span>
+      Live
+    </div>
+    <h1 class="hero-title">
+      <span class="line-1">Usairim</span>
+      <span class="line-2">Web Tech</span>
+    </h1>
+    <p class="hero-sub">
+      Building clean web tools, smart agents, and fun games.&nbsp;
+      Old fundamentals. New energy. Code that actually works.
+    </p>
+    <div class="hero-ctas">
+      <a href="https://usairimkamal786.github.io/Games" target="_blank" class="btn btn-primary">🎮 Play Games</a>
+<a href="https://usairimkamal786.github.io/Agents" target="_blank" class="btn btn-ghost">🤖 Explore Agents</a>
+    </div>
   </div>
 
-  <div class="center">
-    <h1>Usairim Web Tech</h1>
-    <p>Building clean web tools, smart agents, and fun games. Old fundamentals. New energy. Code that actually works.</p>
-   <!-- <p>Views: <span id="viewCount">Loading...</span></p>-->
+  <!-- ── STAT STRIP ────────────────────────────────────────────── -->
+  <div class="stat-strip">
+    <div class="stat-inner">
+      <div class="stat-item reveal">
+        <span class="stat-number">3+</span>
+        <div class="stat-label">Live Projects</div>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-number">100%</span>
+        <div class="stat-label">Open Source</div>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-number">0</span>
+        <div class="stat-label">Trackers / Ads</div>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-number">∞</span>
+        <div class="stat-label">Ideas in Queue</div>
+      </div>
+    </div>
   </div>
 
-  <footer>© <span id="year"></span> Usairim Web Tech. All rights reserved.</footer>
+  <div class="divider-line"></div>
 
+  <!-- ── WHAT I BUILD ──────────────────────────────────────────── -->
+  <section>
+    <div class="section-label reveal">What I Build</div>
+    <h2 class="section-title reveal">Three lanes,<br>one obsession.</h2>
+    <p class="section-desc reveal">Clean interfaces. Smart logic. Addictive gameplay. Everything ships fast and runs even faster.</p>
+    <div class="cards-grid">
+      <div class="card reveal">
+        <span class="card-icon">🎮</span>
+        <h3>Games</h3>
+        <p>Browser-native games built with vanilla JS and raw canvas. No engines, no bloat — just pure, playable fun that loads instantly.</p>
+        <span class="card-tag">Playable Now</span>
+      </div>
+      <div class="card reveal">
+        <span class="card-icon">🤖</span>
+        <h3>AI Agents</h3>
+        <p>Practical agents that do real work: summarise, classify, generate, and automate. Lightweight wrappers over powerful model APIs.</p>
+        <span class="card-tag">Live & Running</span>
+      </div>
+      <div class="card reveal">
+        <span class="card-icon">🛠️</span>
+        <h3>Web Tools</h3>
+        <p>Single-purpose utilities that solve one thing perfectly. No sign-up required. No dark patterns. Just open and use.</p>
+        <span class="card-tag">Always Free</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider-line"></div>
+
+  <!-- ── PROJECTS ──────────────────────────────────────────────── -->
+  <section>
+    <div class="section-label reveal">Projects</div>
+    <h2 class="section-title reveal">What's live.</h2>
+    <p class="section-desc reveal">A growing collection of experiments, tools, and games — all deployed and accessible right now.</p>
+    <div class="projects-list reveal">
+      <div class="project-row">
+        <div class="project-left">
+          <span class="project-num">01</span>
+          <div>
+            <div class="project-name">Games Hub</div>
+            <div class="project-desc">Browser games built without frameworks</div>
+          </div>
+        </div>
+        <div class="project-right">
+          <span class="project-badge">Games</span>
+          <span class="project-arrow">→</span>
+        </div>
+      </div>
+      <div class="project-row">
+        <div class="project-left">
+          <span class="project-num">02</span>
+          <div>
+            <div class="project-name">Agents Lab</div>
+            <div class="project-desc">AI-powered micro-tools and agents</div>
+          </div>
+        </div>
+        <div class="project-right">
+          <span class="project-badge">AI / Agents</span>
+          <span class="project-arrow">→</span>
+        </div>
+      </div>
+      <div class="project-row">
+        <div class="project-left">
+          <span class="project-num">03</span>
+          <div>
+            <div class="project-name">Updates Feed</div>
+            <div class="project-desc">Changelog and release notes</div>
+          </div>
+        </div>
+        <div class="project-right">
+          <span class="project-badge">Blog</span>
+          <span class="project-arrow">→</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider-line"></div>
+
+  <!-- ── TECH STACK ────────────────────────────────────────────── -->
+  <section>
+    <div class="section-label reveal">Tech Stack</div>
+    <h2 class="section-title reveal">Tools of the trade.</h2>
+    <p class="section-desc reveal">Lean, battle-tested, and deliberately chosen. No unnecessary dependencies.</p>
+    <div class="tech-grid reveal">
+      <span class="tech-pill">HTML5</span>
+      <span class="tech-pill">CSS3</span>
+      <span class="tech-pill">Vanilla JS</span>
+      <span class="tech-pill">Canvas API</span>
+      <span class="tech-pill">Web APIs</span>
+      <span class="tech-pill">GitHub Pages</span>
+      <span class="tech-pill">AI APIs</span>
+      <span class="tech-pill">Service Workers</span>
+      <span class="tech-pill">Node.js</span>
+      <span class="tech-pill">REST / JSON</span>
+    </div>
+  </section>
+
+  <!-- ── CTA BANNER ────────────────────────────────────────────── -->
+  <div class="cta-banner">
+    <div class="cta-inner reveal">
+      <h2>Go explore something cool.</h2>
+      <p>Games to kill time. Agents to save time. Pick your poison.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="https://usairimkamal786.github.io/Games" target="_blank" class="btn btn-primary">🎮 Games</a>
+        <a href="https://usairimkamal786.github.io/Agents" target="_blank" class="btn btn-ghost">🤖 Agents</a>
+        <a href="https://usairimkamal786.github.io/Updates/" target="_blank" class="btn btn-ghost">📢 Updates</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ────────────────────────────────────────────────── -->
+  <footer>
+    <div class="footer-left">© <span id="year"></span> <strong>Usairim Web Tech</strong>. All rights reserved.</div>
+    <div class="footer-right">
+      <a href="https://usairimkamal786.github.io/Games" target="_blank">Games</a>
+      <a href="https://usairimkamal786.github.io/Agents" target="_blank">Agents</a>
+      <a href="https://usairimkamal786.github.io/Updates/" target="_blank">Updates</a>
+    </div>
+  </footer>
+
+  <!-- ── SCRIPTS ───────────────────────────────────────────────── -->
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-/*    async function updateViews(token) {
-      try {
-        const res = await fetch('https://usairimwebtech.usairimkamal2016.workers.dev', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ token })
-        });
-        const data = await res.json();
-        document.getElementById("viewCount").textContent = data.views || "Error";
-      } catch {
-        document.getElementById("viewCount").textContent = "Error";
-      }
+    // ── Custom cursor (CSS transition handles the ring lag — no rAF) ──
+    const dot  = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+
+    document.addEventListener('mousemove', e => {
+      const x = e.clientX, y = e.clientY;
+      dot.style.left  = x + 'px';  dot.style.top  = y + 'px';
+      ring.style.left = x + 'px';  ring.style.top = y + 'px';
+    });
+
+    document.querySelectorAll('a, button, .card, .project-row, .tech-pill').forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
+    });
+
+    document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
+    document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; ring.style.opacity = '1'; });
+
+    // ── Canvas background (particle field) ────────────────────
+    const canvas = document.getElementById('bg-canvas');
+    const ctx    = canvas.getContext('2d');
+    let W, H, particles = [];
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
     }
+    resize();
+    window.addEventListener('resize', () => { resize(); initParticles(); });
 
-    grecaptcha.ready(() => {
-      grecaptcha.execute('6LcrWm4sAAAAAPufs6gwRM2XaaFYLpvzg5m5Z_LQ', { action: 'homepage' }).then(updateViews);
-    }); */
+    function initParticles() {
+      const count = Math.floor((W * H) / 12000);
+      particles = Array.from({ length: count }, () => ({
+        x:  Math.random() * W,
+        y:  Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r:  Math.random() * 1.4 + 0.4,
+        a:  Math.random() * 0.5 + 0.1
+      }));
+    }
+    initParticles();
+
+    const CONN_DIST = 120;
+
+    function drawFrame() {
+      ctx.clearRect(0, 0, W, H);
+
+      // Draw connections
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const d  = Math.sqrt(dx * dx + dy * dy);
+          if (d < CONN_DIST) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(63,255,216,${0.08 * (1 - d / CONN_DIST)})`;
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw particles
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(63,255,216,${p.a})`;
+        ctx.fill();
+
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = W;
+        if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H;
+        if (p.y > H) p.y = 0;
+      });
+
+      requestAnimationFrame(drawFrame);
+    }
+    drawFrame();
+
+    // ── Scroll reveal ──────────────────────────────────────────
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 60);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => io.observe(el));
   </script>
 </body>
 </html>
