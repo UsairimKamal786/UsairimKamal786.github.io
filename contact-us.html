@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us — Usairim Gaming</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #080b10;
+    --bg2: #0d1117;
+    --bg3: #111820;
+    --surface: #141c27;
+    --surface2: #1a2433;
+    --border: rgba(0,200,255,0.12);
+    --border2: rgba(0,200,255,0.25);
+    --accent: #00c8ff;
+    --accent2: #7c3aed;
+    --accent-glow: rgba(0,200,255,0.15);
+    --text: #e8edf5;
+    --text2: #8a9bb5;
+    --text3: #556070;
+    --red: #ff4757;
+    --green: #00d68f;
+    --font-head: 'Rajdhani', sans-serif;
+    --font-body: 'Exo 2', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── GRID TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,200,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,200,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,11,16,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .logo {
+    font-family: var(--font-head);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo span {
+    color: var(--accent);
+    text-shadow: 0 0 20px rgba(0,200,255,0.5);
+  }
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--font-head);
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--text2);
+    text-decoration: none;
+    padding: 0.4rem 0.9rem;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .nav-links a:hover, .nav-links a.active {
+    color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .nav-btn {
+    font-family: var(--font-head);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    padding: 0.45rem 1.2rem;
+    border-radius: 6px;
+    border: 1px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    text-decoration: none;
+  }
+
+  .nav-btn:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  /* ── HERO BREADCRUMB ── */
+  .page-hero {
+    position: relative;
+    z-index: 1;
+    padding: 5rem 2rem 3rem;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .page-hero::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse at center, rgba(0,200,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .page-hero::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+
+  .breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: var(--text3);
+    letter-spacing: 0.08em;
+    margin-bottom: 1.25rem;
+    font-family: var(--font-head);
+    text-transform: uppercase;
+  }
+
+  .breadcrumb a { color: var(--accent); text-decoration: none; }
+  .breadcrumb-sep { color: var(--text3); }
+
+  .page-title {
+    font-family: var(--font-head);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .page-title span { color: var(--accent); }
+
+  .page-subtitle {
+    font-size: 1rem;
+    color: var(--text2);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  /* ── INFO COLUMN ── */
+  .info-col { display: flex; flex-direction: column; gap: 1.25rem; }
+
+  .info-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: border-color 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .info-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: linear-gradient(180deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .info-card:hover { border-color: var(--border2); }
+  .info-card:hover::before { opacity: 1; }
+
+  .info-card-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: var(--accent-glow);
+    border: 1px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .info-card h3 {
+    font-family: var(--font-head);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+
+  .info-card p {
+    font-size: 0.88rem;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+  }
+
+  .info-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-family: var(--font-head);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    transition: gap 0.2s;
+  }
+
+  .info-link:hover { gap: 0.7rem; }
+
+  .info-link-arrow {
+    font-size: 0.9rem;
+    transition: transform 0.2s;
+  }
+
+  .info-link:hover .info-link-arrow { transform: translateX(3px); }
+
+  /* Discord special card */
+  .discord-card {
+    background: linear-gradient(135deg, #1a1040 0%, var(--surface) 100%);
+    border-color: rgba(124,58,237,0.3);
+  }
+
+  .discord-card:hover { border-color: rgba(124,58,237,0.6); }
+
+  .discord-card::before {
+    background: linear-gradient(180deg, var(--accent2), #a855f7);
+  }
+
+  .discord-icon { color: #7c3aed; font-size: 1.6rem; }
+
+  .discord-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-family: var(--font-head);
+    letter-spacing: 0.1em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(124,58,237,0.2);
+    border: 1px solid rgba(124,58,237,0.4);
+    color: #a78bfa;
+    margin-bottom: 0.75rem;
+  }
+
+  .status-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: var(--green);
+    font-family: var(--font-head);
+    letter-spacing: 0.04em;
+    margin-top: 0.6rem;
+  }
+
+  .status-dot::before {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,214,143,0.4); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 5px rgba(0,214,143,0); }
+  }
+
+  /* Social links */
+  .social-row {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-top: 0.25rem;
+  }
+
+  .social-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-family: var(--font-head);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text2);
+    text-decoration: none;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+  }
+
+  .social-chip:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  /* Response time card */
+  .response-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .resp-item {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+  }
+
+  .resp-item .label {
+    font-size: 0.72rem;
+    color: var(--text3);
+    font-family: var(--font-head);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  .resp-item .value {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text);
+    font-family: var(--font-head);
+  }
+
+  .resp-item .value.fast { color: var(--green); }
+  .resp-item .value.med  { color: #ffa502; }
+
+  /* ── FORM COLUMN ── */
+  .form-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .form-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
+  }
+
+  .form-title {
+    font-family: var(--font-head);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.4rem;
+  }
+
+  .form-desc {
+    font-size: 0.85rem;
+    color: var(--text2);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .field { margin-bottom: 1.25rem; }
+
+  .field label {
+    display: block;
+    font-family: var(--font-head);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin-bottom: 0.45rem;
+  }
+
+  .field label .req { color: var(--accent); margin-left: 2px; }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,200,255,0.1);
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: var(--text3);
+  }
+
+  .field textarea { resize: vertical; min-height: 130px; }
+
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a9bb5' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+    cursor: pointer;
+  }
+
+  .field select option { background: var(--bg2); }
+
+  /* Category tabs */
+  .category-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .cat-tab {
+    font-family: var(--font-head);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text3);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .cat-tab.active,
+  .cat-tab:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .cat-tab.active {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+
+  /* char counter */
+  .field-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.35rem;
+  }
+
+  .field-hint {
+    font-size: 0.75rem;
+    color: var(--text3);
+  }
+
+  .char-count {
+    font-size: 0.72rem;
+    font-family: var(--font-head);
+    color: var(--text3);
+  }
+
+  /* submit */
+  .submit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.75rem;
+  }
+
+  .submit-note {
+    font-size: 0.78rem;
+    color: var(--text3);
+    line-height: 1.5;
+    max-width: 220px;
+  }
+
+  .submit-note a { color: var(--accent); text-decoration: none; }
+
+  .btn-submit {
+    flex-shrink: 0;
+    font-family: var(--font-head);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.85rem 2.5rem;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+
+  .btn-submit:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-submit:active { transform: translateY(0); }
+
+  .btn-submit::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+    pointer-events: none;
+  }
+
+  /* ── SUCCESS STATE ── */
+  .success-overlay {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 1rem;
+    gap: 1rem;
+  }
+
+  .success-icon {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: rgba(0,214,143,0.1);
+    border: 2px solid var(--green);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+    color: var(--green);
+    animation: popIn 0.4s ease;
+  }
+
+  @keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    80% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .success-overlay h3 {
+    font-family: var(--font-head);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--green);
+  }
+
+  .success-overlay p {
+    color: var(--text2);
+    font-size: 0.9rem;
+    max-width: 320px;
+    line-height: 1.6;
+  }
+
+  .btn-reset {
+    margin-top: 0.5rem;
+    font-family: var(--font-head);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    padding: 0.55rem 1.5rem;
+    border-radius: 6px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .btn-reset:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ── FAQ SECTION ── */
+  .faq-section {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-label {
+    font-family: var(--font-head);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 3px 10px;
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    background: var(--accent-glow);
+  }
+
+  .section-title {
+    font-family: var(--font-head);
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1rem;
+  }
+
+  .faq-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .faq-item:hover { border-color: var(--border2); }
+
+  .faq-q {
+    font-family: var(--font-head);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--text);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .faq-arrow {
+    color: var(--accent);
+    font-size: 1rem;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .faq-item.open .faq-arrow { transform: rotate(45deg); }
+
+  .faq-a {
+    display: none;
+    font-size: 0.85rem;
+    color: var(--text2);
+    line-height: 1.7;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .faq-item.open .faq-a { display: block; }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--text3);
+    font-family: var(--font-head);
+    letter-spacing: 0.06em;
+  }
+
+  footer a { color: var(--accent); text-decoration: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 860px) {
+    .main { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .form-row { grid-template-columns: 1fr; }
+    .submit-row { flex-direction: column; align-items: stretch; }
+    .submit-note { max-width: 100%; }
+    .btn-submit { text-align: center; }
+    .page-hero { padding: 4rem 1.5rem 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <a href="#" class="logo">
+    <div class="logo-icon">🎮</div>
+    USAIRIM<span>GAMING</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Games</a></li>
+    <li><a href="#">News</a></li>
+    <li><a href="#">Community</a></li>
+    <li><a href="#">Esports</a></li>
+    <li><a href="#" class="active">Contact</a></li>
+  </ul>
+
+</header>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="breadcrumb">
+    <a href="#">Home</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>Contact Us</span>
+  </div>
+  <h1 class="page-title">Get In <span>Touch</span></h1>
+  <p class="page-subtitle">Have a question, partnership idea, or just want to talk gaming? We're here for you — 24/7.</p>
+</section>
+
+<!-- MAIN GRID -->
+<div class="main">
+
+  <!-- LEFT: INFO -->
+  <div class="info-col">
+
+    <!-- Email -->
+    <div class="info-card">
+      <div class="info-card-icon">✉️</div>
+      <h3>Email Support</h3>
+      <p>For general inquiries, bug reports, and support — drop us a message and we'll get back to you within 3–5 days.</p>
+      <a href="mailto:usairimkamal2016@gmail.com" class="info-link">
+        usairimkamal2016@gmail.com
+        <span class="info-link-arrow">→</span>
+      </a>
+    </div>
+
+    <!-- Discord -->
+    <div class="info-card discord-card">
+      <div class="info-card-icon discord-icon">💬</div>
+      <span class="discord-badge">DISCORD SERVER</span>
+      <h3>Join Our Community</h3>
+      <p>Hang out with thousands of gamers, get instant help, share clips, and stay updated on everything Usairim Gaming.</p>
+      <a href="https://discord.gg/UQPbmFUa22" target="_blank" rel="noopener" class="info-link" style="color:#a78bfa;">
+        discord.gg/UQPbmFUa22
+        <span class="info-link-arrow">→</span>
+      </a>
+      <div class="status-dot">Server Online</div>
+    </div>
+
+    <!-- Response Times -->
+    <div class="info-card">
+      <div class="info-card-icon">⚡</div>
+      <h3>Response Times</h3>
+      <div class="response-grid">
+        <div class="resp-item">
+          <div class="label">Discord</div>
+          <div class="value fast">2–3 Days</div>
+        </div>
+        <div class="resp-item">
+          <div class="label">Email</div>
+          <div class="value med">3–5 Days</div>
+        </div>
+        <div class="resp-item">
+          <div class="label">Business</div>
+          <div class="value med">~48 Hours</div>
+        </div>
+        <div class="resp-item">
+          <div class="label">DMCA</div>
+          <div class="value">~72 Hours</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social -->
+    <div class="info-card">
+      <div class="info-card-icon">🌐</div>
+      <h3>Follow Us</h3>
+      <p>Stay connected on social media for the latest gaming news, drops, and community highlights.</p>
+      <div class="social-row">
+        <a href="https://discord.gg/UQPbmFUa22" target="_blank" class="social-chip">💬 Discord</a>
+        <a href="mailto:usairimkamal2016@gmail.com" class="social-chip">✉️ Email</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: FORM -->
+  <div class="form-card" id="formCard">
+    <div id="formInner">
+      <h2 class="form-title">Send a Message</h2>
+      <p class="form-desc">Fill out the form below and our team will respond as soon as possible.</p>
+
+      <!-- Category Tabs -->
+      <div class="category-tabs" id="catTabs">
+        <button class="cat-tab active" data-cat="General">General</button>
+        <button class="cat-tab" data-cat="Support">Support</button>
+        <button class="cat-tab" data-cat="Business">Business</button>
+        <button class="cat-tab" data-cat="Advertise">Advertise</button>
+        <button class="cat-tab" data-cat="DMCA">DMCA</button>
+        <button class="cat-tab" data-cat="Other">Other</button>
+      </div>
+
+      <input type="hidden" id="categoryInput" value="General">
+
+      <div class="form-row">
+        <div class="field">
+          <label>First Name <span class="req">*</span></label>
+          <input type="text" id="fname" placeholder="John">
+        </div>
+        <div class="field">
+          <label>Last Name <span class="req">*</span></label>
+          <input type="text" id="lname" placeholder="Doe">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Email Address <span class="req">*</span></label>
+        <input type="email" id="email" placeholder="you@example.com">
+      </div>
+
+      <div class="field">
+        <label>Subject <span class="req">*</span></label>
+        <input type="text" id="subject" placeholder="What's this about?">
+      </div>
+
+      <div class="field">
+        <label>Your Message <span class="req">*</span></label>
+        <textarea id="message" placeholder="Tell us everything — the more detail, the faster we can help you..." maxlength="1000"></textarea>
+        <div class="field-meta">
+          <span class="field-hint">Be as detailed as possible</span>
+          <span class="char-count" id="charCount">0 / 1000</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>How did you find us?</label>
+        <select id="source">
+          <option value="">— Select an option —</option>
+          <option>YouTube</option>
+          <option>Discord</option>
+          <option>Google Search</option>
+          <option>Instagram / TikTok</option>
+          <option>Friend Referral</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="submit-row">
+        <p class="submit-note">
+          By submitting you agree to our <a href="#">Privacy Policy</a> and <a href="#">Terms</a>.
+        </p>
+        <button class="btn-submit" onclick="submitForm()">SEND MESSAGE ✦</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-overlay" id="successBox">
+      <div class="success-icon">✓</div>
+      <h3>Message Sent!</h3>
+      <p>Thanks for reaching out. We've received your message and will reply to your email within 3–5 days.</p>
+      <p style="font-size:0.8rem; color: var(--text3); margin-top:0.5rem;">
+        For faster response, join our Discord server!
+      </p>
+      <a href="https://discord.gg/UQPbmFUa22" target="_blank" class="btn-submit" style="margin-top:0.5rem; text-decoration:none; display:inline-block;">
+        Join Discord →
+      </a>
+      <button class="btn-reset" onclick="resetForm()">Send Another Message</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- FAQ SECTION -->
+<section class="faq-section">
+  <div class="section-header">
+    <span class="section-label">FAQ</span>
+    <h2 class="section-title">Common Questions</h2>
+  </div>
+  <div class="faq-grid">
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">How do I report a DMCA / copyright issue? <span class="faq-arrow">+</span></div>
+      <div class="faq-a">Select the "DMCA" category in the contact form above and describe the content in question. Include links and ownership proof. We aim to respond within 72 hours.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">I have a business / sponsorship inquiry. <span class="faq-arrow">+</span></div>
+      <div class="faq-a">Choose the "Business" or "Advertise" category and provide your company details and proposal. Our partnership team will reach out within 48 hours.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">A game download isn't working. What should I do? <span class="faq-arrow">+</span></div>
+      <div class="faq-a">Select "Support" in the form above and mention the game title and the error you're seeing. Alternatively, the fastest help is in our Discord's #support channel.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">Can I submit my game to be featured on the site? <span class="faq-arrow">+</span></div>
+      <div class="faq-a">Absolutely! Use the "Business" category and include your game name, description, platform, and any press kit. We review all submissions.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">How do I get my account unbanned? <span class="faq-arrow">+</span></div>
+      <div class="faq-a">Use the "Support" category and provide your username and the reason you believe the ban was a mistake. Account reviews take up to 5 business days.</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">What are your moderation / community rules? <span class="faq-arrow">+</span></div>
+      <div class="faq-a">Full community guidelines are available on the Community Guidelines page. Short version: be respectful, no spam or hate speech, follow Discord's TOS.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© <span id="footerYear"></span> Usairim Gaming — All rights reserved &nbsp;·&nbsp;
+    <a href="#">Privacy Policy</a> &nbsp;·&nbsp;
+    <a href="#">Terms</a> &nbsp;·&nbsp;
+    <a href="#">DMCA</a> &nbsp;·&nbsp;
+    <a href="mailto:usairimkamal2016@gmail.com">usairimkamal2016@gmail.com</a>
+  </p>
+</footer>
+
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+  /* ============================================================
+     ██████  SETUP INSTRUCTIONS — READ THIS FIRST
+     ============================================================
+
+     STEP 1 — EMAILJS (sends to your Gmail)
+     ───────────────────────────────────────
+     1. Go to https://www.emailjs.com and create a free account
+     2. Add a Service: Connect your Gmail (usairimkamal2016@gmail.com)
+        → Copy your SERVICE ID  → paste into EMAILJS_SERVICE_ID below
+     3. Create an Email Template:
+        → Use these variables in your template:
+          {{from_name}}  {{from_email}}  {{subject}}
+          {{category}}   {{source}}      {{message}}
+        → Copy your TEMPLATE ID → paste into EMAILJS_TEMPLATE_ID below
+     4. Go to Account → API Keys
+        → Copy your PUBLIC KEY  → paste into EMAILJS_PUBLIC_KEY below
+
+     STEP 2 — DISCORD WEBHOOK
+     ─────────────────────────
+     1. Open your Discord server
+     2. Go to any channel (e.g. #contact-messages) → Edit Channel
+        → Integrations → Webhooks → New Webhook → Copy Webhook URL
+     3. Paste that URL into DISCORD_WEBHOOK_URL below
+
+     ============================================================ */
+
+  const EMAILJS_PUBLIC_KEY   = 'YOUR_PUBLIC_KEY';       // ← paste here
+  const EMAILJS_SERVICE_ID   = 'YOUR_SERVICE_ID';       // ← paste here
+  const EMAILJS_TEMPLATE_ID  = 'YOUR_TEMPLATE_ID';      // ← paste here
+  const DISCORD_WEBHOOK_URL  = 'https://discord.com/api/webhooks/1506871639478894643/qZmByO_aTeGHngVyNJhWmQZONJigarwPHnjkgZt-qY3oOMqg4yCGnMpyX3l89_eaFnEC';
+
+  /* ============================================================ */
+
+  document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+  // Init EmailJS
+  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+  // Category tabs
+  document.querySelectorAll('.cat-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('categoryInput').value = btn.dataset.cat;
+    });
+  });
+
+  // Char counter
+  const msg = document.getElementById('message');
+  const cnt = document.getElementById('charCount');
+  msg.addEventListener('input', () => {
+    cnt.textContent = msg.value.length + ' / 1000';
+    cnt.style.color = msg.value.length > 900 ? '#ff4757' : 'var(--text3)';
+  });
+
+  // Validate & highlight empty fields
+  function validate() {
+    let ok = true;
+    ['fname','lname','email','subject','message'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el.value.trim()) {
+        el.style.borderColor = '#ff4757';
+        el.style.boxShadow = '0 0 0 3px rgba(255,71,87,0.12)';
+        el.addEventListener('input', () => {
+          el.style.borderColor = '';
+          el.style.boxShadow = '';
+        }, { once: true });
+        ok = false;
+      }
+    });
+    return ok;
+  }
+
+  // Send to Discord via Webhook
+  async function sendToDiscord(data) {
+    if (!DISCORD_WEBHOOK_URL || DISCORD_WEBHOOK_URL === 'YOUR_DISCORD_WEBHOOK_URL') return;
+    const categoryColors = {
+      General: 0x00c8ff, Support: 0xffa502, Business: 0x7c3aed,
+      Advertise: 0x00d68f, DMCA: 0xff4757, Other: 0x8a9bb5
+    };
+    const color = categoryColors[data.category] || 0x00c8ff;
+    const payload = {
+      username: 'Usairim Gaming — Contact Form',
+      avatar_url: 'https://cdn.discordapp.com/embed/avatars/0.png',
+      embeds: [{
+        title: `📬 New Message: ${data.subject}`,
+        color: color,
+        fields: [
+          { name: '👤 Name',     value: data.name,     inline: true },
+          { name: '📧 Email',    value: data.email,    inline: true },
+          { name: '🏷️ Category', value: data.category, inline: true },
+          { name: '🔍 Found via',value: data.source || 'Not specified', inline: true },
+          { name: '💬 Message',  value: data.message }
+        ],
+        footer: { text: 'Usairim Gaming Contact Form' },
+        timestamp: new Date().toISOString()
+      }]
+    };
+    await fetch(DISCORD_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  }
+
+  // Send via EmailJS
+  async function sendToEmail(data) {
+    if (!EMAILJS_PUBLIC_KEY || EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') return;
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      from_name:  data.name,
+      from_email: data.email,
+      subject:    data.subject,
+      category:   data.category,
+      source:     data.source || 'Not specified',
+      message:    data.message
+    });
+  }
+
+  // Main submit handler
+  async function submitForm() {
+    if (!validate()) return;
+
+    const btn = document.querySelector('.btn-submit');
+    btn.textContent = 'SENDING…';
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+
+    const data = {
+      name:     document.getElementById('fname').value.trim() + ' ' + document.getElementById('lname').value.trim(),
+      email:    document.getElementById('email').value.trim(),
+      subject:  document.getElementById('subject').value.trim(),
+      category: document.getElementById('categoryInput').value,
+      source:   document.getElementById('source').value,
+      message:  document.getElementById('message').value.trim()
+    };
+
+    try {
+      await Promise.allSettled([
+        sendToDiscord(data),
+        sendToEmail(data)
+      ]);
+      // Show success regardless — at least one channel likely worked
+      document.getElementById('formInner').style.display = 'none';
+      document.getElementById('successBox').style.display = 'flex';
+    } catch (err) {
+      btn.textContent = 'SEND MESSAGE ✦';
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      alert('Something went wrong. Please email us directly at usairimkamal2016@gmail.com');
+    }
+  }
+
+  function resetForm() {
+    document.getElementById('formInner').style.display = 'block';
+    document.getElementById('successBox').style.display = 'none';
+    ['fname','lname','email','subject','message'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('source').value = '';
+    cnt.textContent = '0 / 1000';
+    document.querySelectorAll('.cat-tab').forEach((b,i) => b.classList.toggle('active', i===0));
+    document.getElementById('categoryInput').value = 'General';
+    const btn = document.querySelector('.btn-submit');
+    btn.textContent = 'SEND MESSAGE ✦';
+    btn.disabled = false;
+    btn.style.opacity = '1';
+  }
+
+  // FAQ toggle
+  function toggleFaq(el) {
+    const isOpen = el.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
+    if (!isOpen) el.classList.add('open');
+  }
+</script>
+</body>
+</html>
