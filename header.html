@@ -1,0 +1,1858 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Header — Usairim Gaming</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:           #080b10;
+    --bg2:          #0d1117;
+    --bg3:          #111820;
+    --surface:      #141c27;
+    --surface2:     #1a2433;
+    --border:       rgba(0,200,255,0.12);
+    --border2:      rgba(0,200,255,0.25);
+    --accent:       #00c8ff;
+    --accent2:      #7c3aed;
+    --accent-glow:  rgba(0,200,255,0.12);
+    --text:         #e8edf5;
+    --text2:        #8a9bb5;
+    --text3:        #556070;
+    --font-head:    'Rajdhani', sans-serif;
+    --font-body:    'Exo 2', sans-serif;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    /* Demo padding so header doesn't cover content */
+    padding-bottom: 40px;
+  }
+
+  /* ── GRID BG (demo only) ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,200,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,200,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ══════════════════════════════════════════
+     HEADER WRAPPER
+  ══════════════════════════════════════════ */
+  #ug-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    font-family: var(--font-head);
+  }
+
+  /* ── TOP ANNOUNCEMENT BAR ── */
+  .announce-bar {
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    text-align: center;
+    padding: 7px 1rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #fff;
+    position: relative;
+  }
+
+  .announce-bar a {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    margin-left: 6px;
+  }
+
+  .announce-close {
+    position: absolute;
+    right: 1rem; top: 50%;
+    transform: translateY(-50%);
+    background: none; border: none;
+    color: #fff; font-size: 1rem;
+    cursor: pointer; opacity: 0.7;
+    line-height: 1;
+  }
+
+  .announce-close:hover { opacity: 1; }
+
+  /* ── MAIN TOPBAR ── */
+  .topbar {
+    background: rgba(8,11,16,0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    height: 66px;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  /* LOGO */
+  .logo {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 0 18px rgba(0,200,255,0.25);
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    font-size: 1.45rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .logo-text span { color: var(--accent); text-shadow: 0 0 18px rgba(0,200,255,0.5); }
+
+  /* SEARCH */
+  .search-wrap {
+    flex: 1;
+    max-width: 420px;
+    position: relative;
+  }
+
+  .search-input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 0.55rem 1rem 0.55rem 2.6rem;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .search-input::placeholder { color: var(--text3); }
+
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,200,255,0.1);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 0.85rem; top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    font-size: 0.9rem;
+    pointer-events: none;
+  }
+
+  /* Search dropdown */
+  .search-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0; right: 0;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+  }
+
+  .search-wrap:focus-within .search-dropdown { display: block; }
+
+  .search-suggest-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding: 0.7rem 1rem 0.3rem;
+  }
+
+  .search-suggest-item {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    color: var(--text2);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .search-suggest-item:hover {
+    background: var(--surface2);
+    color: var(--accent);
+  }
+
+  .search-suggest-item .tag {
+    margin-left: auto;
+    font-size: 0.65rem;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: var(--accent-glow);
+    border: 1px solid var(--border2);
+    color: var(--accent);
+    letter-spacing: 0.06em;
+  }
+
+  /* RIGHT ACTIONS */
+  .topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  .icon-btn {
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 1rem;
+    position: relative;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    flex-shrink: 0;
+  }
+
+  .icon-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  /* Notification badge */
+  .notif-badge {
+    position: absolute;
+    top: 5px; right: 5px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 6px rgba(0,200,255,0.6);
+  }
+
+  /* Notification dropdown */
+  .notif-wrap { position: relative; }
+
+  .notif-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 300px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    z-index: 200;
+  }
+
+  .notif-wrap.open .notif-dropdown { display: block; }
+
+  .notif-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .notif-header a {
+    font-size: 0.72rem;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .notif-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+
+  .notif-item:hover { background: var(--surface2); }
+  .notif-item:last-child { border-bottom: none; }
+
+  .notif-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  .notif-dot.read { background: var(--text3); }
+
+  .notif-text {
+    font-size: 0.8rem;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  .notif-time {
+    font-size: 0.68rem;
+    color: var(--text3);
+    margin-top: 2px;
+    font-family: var(--font-body);
+  }
+
+  /* Dark mode toggle */
+  .dark-toggle {
+    font-size: 1.1rem;
+  }
+
+  /* Login / Register buttons */
+  .btn-login {
+    font-family: var(--font-head);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    padding: 0.45rem 1.1rem;
+    border-radius: 7px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text2);
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+
+  .btn-login:hover { color: var(--accent); border-color: var(--accent); }
+
+  .btn-register {
+    font-family: var(--font-head);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 0.45rem 1.2rem;
+    border-radius: 7px;
+    border: none;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.15s;
+    white-space: nowrap;
+  }
+
+  .btn-register:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  /* ── NAV BAR ── */
+  .navbar {
+    background: rgba(13,17,23,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    height: 46px;
+    gap: 0.1rem;
+    position: relative;
+  }
+
+  /* NAV ITEMS */
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--font-head);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--text2);
+    text-decoration: none;
+    padding: 0 0.85rem;
+    height: 46px;
+    transition: color 0.2s;
+    white-space: nowrap;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+
+  .nav-link:hover,
+  .nav-item.open > .nav-link { color: var(--accent); }
+
+  .nav-link.active { color: var(--accent); }
+
+  /* Neon underline on hover */
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0.85rem; right: 0.85rem;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    transform: scaleX(0);
+    transition: transform 0.25s;
+    border-radius: 2px;
+  }
+
+  .nav-link:hover::after,
+  .nav-item.open > .nav-link::after { transform: scaleX(1); }
+
+  .nav-arrow {
+    font-size: 0.6rem;
+    transition: transform 0.25s;
+    margin-top: 1px;
+  }
+
+  .nav-item.open .nav-arrow { transform: rotate(180deg); }
+
+  /* ── STANDARD DROPDOWN ── */
+  .dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 0;
+    min-width: 200px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 0.5rem;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    z-index: 500;
+    animation: fadeDown 0.18s ease;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .nav-item.open .dropdown { display: block; }
+
+  .dropdown a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-head);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--text2);
+    text-decoration: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    transition: color 0.15s, background 0.15s;
+    white-space: nowrap;
+  }
+
+  .dropdown a:hover {
+    color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .dropdown-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0.4rem 0;
+  }
+
+  .dropdown-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding: 0.5rem 0.75rem 0.2rem;
+  }
+
+  /* ── MEGA MENU ── */
+  .mega-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 1px);
+    left: -60px;
+    width: 680px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 1.5rem;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    z-index: 500;
+    animation: fadeDown 0.18s ease;
+    display: none;
+  }
+
+  .nav-item.open .mega-menu { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+
+  .mega-col-title {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mega-col a {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-head);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: var(--text2);
+    text-decoration: none;
+    padding: 0.38rem 0;
+    transition: color 0.15s;
+  }
+
+  .mega-col a:hover { color: var(--accent); }
+
+  .mega-col a .ico { font-size: 0.9rem; width: 18px; text-align: center; }
+
+  /* Featured tag in mega menu */
+  .mega-tag {
+    font-size: 0.6rem;
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: rgba(0,200,255,0.15);
+    border: 1px solid rgba(0,200,255,0.3);
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-left: auto;
+  }
+
+  .mega-tag.hot { background: rgba(255,71,87,0.15); border-color: rgba(255,71,87,0.3); color: #ff4757; }
+  .mega-tag.new { background: rgba(0,214,143,0.15); border-color: rgba(0,214,143,0.3); color: #00d68f; }
+
+  /* ── MOBILE HAMBURGER ── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    padding: 0 9px;
+    margin-left: auto;
+  }
+
+  .hamburger span {
+    display: block;
+    height: 2px;
+    background: var(--text2);
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s, width 0.3s;
+  }
+
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ── MOBILE DRAWER ── */
+  .mobile-drawer {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--bg2);
+    z-index: 999;
+    overflow-y: auto;
+    padding: 1.5rem;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .mobile-drawer.open { transform: translateX(0); }
+
+  .mobile-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mobile-close {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+    font-size: 1.1rem;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+
+  .mobile-search {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 0.65rem 1rem;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    outline: none;
+    margin-bottom: 1.5rem;
+  }
+
+  .mobile-nav-section { margin-bottom: 1.5rem; }
+
+  .mobile-section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 0.6rem;
+    padding-left: 0.5rem;
+  }
+
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-head);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--text2);
+    text-decoration: none;
+    padding: 0.65rem 0.75rem;
+    border-radius: 8px;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .mobile-nav-link:hover,
+  .mobile-nav-link.active {
+    color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .mobile-nav-link .m-ico { font-size: 1.1rem; width: 24px; text-align: center; }
+
+  .mobile-auth-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .mobile-auth-row a {
+    flex: 1;
+    text-align: center;
+    font-family: var(--font-head);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    padding: 0.65rem;
+    border-radius: 8px;
+    text-decoration: none;
+  }
+
+  .mobile-auth-row .m-login {
+    border: 1px solid var(--border2);
+    color: var(--text2);
+  }
+
+  .mobile-auth-row .m-register {
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    color: #fff;
+  }
+
+  /* ══════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════ */
+  @media (max-width: 1024px) {
+    .navbar { display: none; }
+    .hamburger { display: flex; }
+    .mobile-drawer { display: block; }
+    .search-wrap { max-width: 280px; }
+  }
+
+  @media (max-width: 640px) {
+    .topbar { padding: 0 1rem; gap: 0.75rem; }
+    .search-wrap { display: none; }
+    .btn-login, .btn-register { display: none; }
+    .logo-text { font-size: 1.2rem; }
+  }
+
+  /* ══════════════════════════════
+     DEMO PAGE CONTENT
+  ══════════════════════════════ */
+  .demo-body {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+    text-align: center;
+  }
+
+  .demo-label {
+    font-family: var(--font-head);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(0,200,255,0.3);
+    background: rgba(0,200,255,0.08);
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 4px;
+    margin-bottom: 1.25rem;
+  }
+
+  .demo-title {
+    font-family: var(--font-head);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .demo-title span { color: var(--accent); }
+
+  .demo-desc {
+    font-size: 0.95rem;
+    color: var(--text2);
+    line-height: 1.7;
+    max-width: 540px;
+    margin: 0 auto 2rem;
+  }
+
+  .demo-features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+
+  .demo-feat {
+    font-family: var(--font-head);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    padding: 0.35rem 0.9rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     HEADER START
+══════════════════════════════════════════ -->
+<header id="ug-header">
+
+  <!-- ANNOUNCEMENT BAR -->
+  <div class="announce-bar" id="announceBar">
+    🎮 Welcome to Usairim Gaming — Your ultimate gaming hub!
+    <a href="#">Join Discord →</a>
+    <button class="announce-close" onclick="document.getElementById('announceBar').style.display='none'">✕</button>
+  </div>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+
+    <!-- Logo -->
+    <a href="#" class="logo">
+      <div class="logo-icon">🎮</div>
+      <span class="logo-text">USAIRIM<span>GAMING</span></span>
+    </a>
+
+    <!-- Search -->
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" type="text" placeholder="Search games, news, guides…">
+      <div class="search-dropdown">
+        <div class="search-suggest-label">Trending Searches</div>
+        <div class="search-suggest-item">🎮 Minecraft Mods <span class="tag">HOT</span></div>
+        <div class="search-suggest-item">🔫 Valorant Tips <span class="tag">NEW</span></div>
+        <div class="search-suggest-item">🏎️ Racing Games</div>
+        <div class="search-suggest-item">👾 PUBG Download</div>
+        <div class="search-suggest-item">🧱 GTA V Mods</div>
+      </div>
+    </div>
+
+    <!-- Right Actions -->
+    <div class="topbar-actions">
+
+      <!-- Notifications -->
+      <div class="notif-wrap" id="notifWrap">
+        <button class="icon-btn" onclick="toggleNotif()" title="Notifications">
+          🔔
+          <span class="notif-badge"></span>
+        </button>
+        <div class="notif-dropdown">
+          <div class="notif-header">
+            Notifications
+            <a href="#">Mark all read</a>
+          </div>
+          <div class="notif-item">
+            <span class="notif-dot"></span>
+            <div>
+              <div class="notif-text">New game added: <strong>GTA VI</strong> is now available!</div>
+              <div class="notif-time">2 minutes ago</div>
+            </div>
+          </div>
+          <div class="notif-item">
+            <span class="notif-dot"></span>
+            <div>
+              <div class="notif-text">Minecraft 1.21 update guide is live</div>
+              <div class="notif-time">1 hour ago</div>
+            </div>
+          </div>
+          <div class="notif-item">
+            <span class="notif-dot read"></span>
+            <div>
+              <div class="notif-text">New tournament announced — sign up now!</div>
+              <div class="notif-time">Yesterday</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dark Mode -->
+      <button class="icon-btn dark-toggle" title="Toggle Dark Mode" onclick="toggleDark()">🌙</button>
+
+      <!-- Login / Register -->
+      <a href="#" class="btn-login">Login</a>
+      <a href="#" class="btn-register">Register</a>
+
+      <!-- Hamburger (mobile) -->
+      <button class="hamburger" id="hamburger" onclick="toggleMobile()">
+        <span></span><span></span><span></span>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- NAV BAR (desktop) -->
+  <nav class="navbar" id="desktopNav">
+
+    <!-- Home -->
+    <div class="nav-item">
+      <a href="#" class="nav-link active">🏠 Home</a>
+    </div>
+
+    <!-- Games (Mega Menu) -->
+    <div class="nav-item" id="navGames">
+      <button class="nav-link" onclick="toggleNav('navGames')">
+        🎮 Games <span class="nav-arrow">▾</span>
+      </button>
+      <div class="mega-menu">
+        <div class="mega-col">
+          <div class="mega-col-title">Online Games</div>
+          <a href="#"><span class="ico">⚔️</span> Action Games</a>
+          <a href="#"><span class="ico">🏎️</span> Racing Games</a>
+          <a href="#"><span class="ico">🗺️</span> Adventure Games</a>
+          <a href="#"><span class="ico">🧩</span> Puzzle Games</a>
+          <a href="#"><span class="ico">👻</span> Horror Games <span class="mega-tag hot">HOT</span></a>
+          <a href="#"><span class="ico">🤝</span> Multiplayer</a>
+          <a href="#"><span class="ico">🪂</span> Battle Royale</a>
+        </div>
+        <div class="mega-col">
+          <div class="mega-col-title">Download Games</div>
+          <a href="#"><span class="ico">💻</span> PC Games</a>
+          <a href="#"><span class="ico">📱</span> Android Games</a>
+          <a href="#"><span class="ico">🍎</span> iOS Games</a>
+          <a href="#"><span class="ico">⚙️</span> Low-End PC <span class="mega-tag new">NEW</span></a>
+          <a href="#"><span class="ico">🎨</span> High Graphics</a>
+          <a href="#"><span class="ico">📵</span> Offline Games</a>
+        </div>
+        <div class="mega-col">
+          <div class="mega-col-title">Popular Titles</div>
+          <a href="#"><span class="ico">🧱</span> Minecraft</a>
+          <a href="#"><span class="ico">🚗</span> GTA Series <span class="mega-tag hot">HOT</span></a>
+          <a href="#"><span class="ico">🌀</span> Fortnite</a>
+          <a href="#"><span class="ico">🪖</span> PUBG</a>
+          <a href="#"><span class="ico">🎯</span> Valorant</a>
+          <a href="#"><span class="ico">🟥</span> Roblox</a>
+          <a href="#"><span class="ico">📞</span> Call of Duty</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- News -->
+    <div class="nav-item" id="navNews">
+      <button class="nav-link" onclick="toggleNav('navNews')">
+        📰 News <span class="nav-arrow">▾</span>
+      </button>
+      <div class="dropdown">
+        <div class="dropdown-label">News</div>
+        <a href="#">🗞️ Latest News</a>
+        <a href="#">🔧 Updates & Patches</a>
+        <a href="#">🎬 Trailers</a>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-label">Esports</div>
+        <a href="#">🏆 Esports News</a>
+        <a href="#">📅 Upcoming Releases</a>
+      </div>
+    </div>
+
+    <!-- Reviews -->
+    <div class="nav-item" id="navReviews">
+      <button class="nav-link" onclick="toggleNav('navReviews')">
+        ⭐ Reviews <span class="nav-arrow">▾</span>
+      </button>
+      <div class="dropdown">
+        <a href="#">🎮 Game Reviews</a>
+        <a href="#">🖥️ Hardware Reviews</a>
+        <a href="#">📱 Mobile Reviews</a>
+        <a href="#">🏅 Ratings</a>
+      </div>
+    </div>
+
+    <!-- Community -->
+    <div class="nav-item" id="navCommunity">
+      <button class="nav-link" onclick="toggleNav('navCommunity')">
+        💬 Community <span class="nav-arrow">▾</span>
+      </button>
+      <div class="dropdown">
+        <a href="#">🗣️ Forums</a>
+        <a href="#">💬 Discord Server</a>
+        <a href="#">🏆 Leaderboards</a>
+        <a href="#">👥 Teams / Clans</a>
+        <a href="#">👤 User Profiles</a>
+        <div class="dropdown-divider"></div>
+        <a href="#">🎨 Fan Creations</a>
+      </div>
+    </div>
+
+    <!-- Esports -->
+    <div class="nav-item" id="navEsports">
+      <button class="nav-link" onclick="toggleNav('navEsports')">
+        🏆 Esports <span class="nav-arrow">▾</span>
+      </button>
+      <div class="dropdown">
+        <a href="#">🥊 Tournaments</a>
+        <a href="#">📡 Live Matches</a>
+        <a href="#">📊 Rankings</a>
+        <a href="#">🎽 Teams</a>
+        <a href="#">💰 Prize Pools</a>
+      </div>
+    </div>
+
+    <!-- Downloads -->
+    <div class="nav-item" id="navDownloads">
+      <button class="nav-link" onclick="toggleNav('navDownloads')">
+        ⬇️ Downloads <span class="nav-arrow">▾</span>
+      </button>
+      <div class="dropdown">
+        <a href="#">🚀 Game Launchers</a>
+        <a href="#">🔧 Mods & Addons</a>
+        <a href="#">🎨 Texture Packs</a>
+        <a href="#">🖼️ Wallpapers</a>
+        <a href="#">🛠️ Game Tools</a>
+        <a href="#">🕹️ Emulators</a>
+      </div>
+    </div>
+
+    <!-- Store -->
+    <div class="nav-item" id="navStore">
+      <button class="nav-link" onclick="toggleNav('navStore')">
+        🛒 Store <span class="nav-arrow">▾</span>
+      </button>
+      <div class="dropdown">
+        <a href="#">👕 Merchandise</a>
+        <a href="#">🎮 Accessories</a>
+        <a href="#">🎁 Gift Cards</a>
+        <a href="#">⭐ Premium</a>
+        <a href="#">🏷️ Deals</a>
+      </div>
+    </div>
+
+    <!-- Support -->
+    <div class="nav-item" id="navSupport">
+      <button class="nav-link" onclick="toggleNav('navSupport')">
+        🛡️ Support <span class="nav-arrow">▾</span>
+      </button>
+      <div class="dropdown">
+        <a href="#">❓ Help Center</a>
+        <a href="#">📬 Contact Us</a>
+        <a href="#">🙋 FAQs</a>
+        <a href="#">🚩 Report Problem</a>
+        <a href="#">⚖️ DMCA</a>
+      </div>
+    </div>
+
+  </nav>
+
+</header>
+<!-- ══════════════════════════════════════════
+     HEADER END
+══════════════════════════════════════════ -->
+
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <div class="mobile-drawer-header">
+    <a href="#" class="logo">
+      <div class="logo-icon">🎮</div>
+      <span class="logo-text">USAIRIM<span>GAMING</span></span>
+    </a>
+    <button class="mobile-close" onclick="toggleMobile()">✕</button>
+  </div>
+
+  <input class="mobile-search" type="text" placeholder="Search games, news, guides…">
+
+  <div class="mobile-nav-section">
+    <div class="mobile-section-label">Main</div>
+    <a href="#" class="mobile-nav-link active"><span class="m-ico">🏠</span> Home</a>
+    <a href="#" class="mobile-nav-link"><span class="m-ico">🎮</span> Games</a>
+    <a href="#" class="mobile-nav-link"><span class="m-ico">📰</span> News</a>
+    <a href="#" class="mobile-nav-link"><span class="m-ico">⭐</span> Reviews</a>
+  </div>
+
+  <div class="mobile-nav-section">
+    <div class="mobile-section-label">Community</div>
+    <a href="#" class="mobile-nav-link"><span class="m-ico">💬</span> Community</a>
+    <a href="#" class="mobile-nav-link"><span class="m-ico">🏆</span> Esports</a>
+    <a href="#" class="mobile-nav-link"><span class="m-ico">⬇️</span> Downloads</a>
+  </div>
+
+  <div class="mobile-nav-section">
+    <div class="mobile-section-label">More</div>
+    <a href="#" class="mobile-nav-link"><span class="m-ico">🛒</span> Store</a>
+    <a href="#" class="mobile-nav-link"><span class="m-ico">🛡️</span> Support</a>
+    <a href="#" class="mobile-nav-link"><span class="m-ico">📬</span> Contact Us</a>
+  </div>
+
+  <div class="mobile-auth-row">
+    <a href="#" class="m-login">Login</a>
+    <a href="#" class="m-register">Register</a>
+  </div>
+</div>
+
+
+<!-- DEMO PAGE CONTENT -->
+<div class="demo-body" style="position:relative;z-index:1;">
+  <div class="demo-label">HEADER PREVIEW</div>
+  <h1 class="demo-title">Usairim <span>Gaming</span> Header</h1>
+  <p class="demo-desc">Hover the nav items to see dropdown &amp; mega menus. Try the search bar, notifications, and resize the window to see the mobile menu.</p>
+  <div class="demo-features">
+    <span class="demo-feat">✅ Sticky Navbar</span>
+    <span class="demo-feat">✅ Mega Menu (Games)</span>
+    <span class="demo-feat">✅ Animated Dropdowns</span>
+    <span class="demo-feat">✅ Search Suggestions</span>
+    <span class="demo-feat">✅ Notification Dropdown</span>
+    <span class="demo-feat">✅ Announcement Bar</span>
+    <span class="demo-feat">✅ Mobile Drawer</span>
+    <span class="demo-feat">✅ Dark Mode Toggle</span>
+    <span class="demo-feat">✅ Glassmorphism</span>
+    <span class="demo-feat">✅ Neon Glow Hover</span>
+  </div>
+</div>
+
+
+<script>
+  // Toggle individual nav dropdowns/mega menus
+  function toggleNav(id) {
+    const item = document.getElementById(id);
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Close nav when clicking outside
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.nav-item')) {
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('open'));
+    }
+    if (!e.target.closest('.notif-wrap')) {
+      document.getElementById('notifWrap').classList.remove('open');
+    }
+  });
+
+  // Notifications
+  function toggleNotif() {
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('open'));
+    document.getElementById('notifWrap').classList.toggle('open');
+  }
+
+  // Mobile drawer
+  function toggleMobile() {
+    const drawer = document.getElementById('mobileDrawer');
+    const burger = document.getElementById('hamburger');
+    const isOpen = drawer.classList.contains('open');
+    drawer.classList.toggle('open');
+    burger.classList.toggle('open');
+    document.body.style.overflow = isOpen ? '' : 'hidden';
+  }
+
+  // Dark mode toggle (demo — toggles a class)
+  let isDark = true;
+  function toggleDark() {
+    isDark = !isDark;
+    document.querySelector('.dark-toggle').textContent = isDark ? '🌙' : '☀️';
+    document.body.style.background = isDark ? '' : '#f0f4f8';
+  }
+</script>
+
+<!-- ══════════════════════════════════════════
+     LOGIN / REGISTER MODAL
+══════════════════════════════════════════ -->
+<style>
+  /* OVERLAY */
+  .auth-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(6px);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .auth-overlay.open { display: flex; }
+
+  /* MODAL BOX */
+  .auth-modal {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 18px;
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    overflow: hidden;
+    animation: modalPop 0.25s ease;
+  }
+
+  @keyframes modalPop {
+    from { opacity: 0; transform: scale(0.93) translateY(16px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Top gradient line */
+  .auth-modal::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+  }
+
+  /* CLOSE BTN */
+  .auth-close {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text2);
+    font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    z-index: 1;
+  }
+  .auth-close:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* TABS */
+  .auth-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .auth-tab {
+    flex: 1;
+    font-family: var(--font-head);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    padding: 1.1rem;
+    text-align: center;
+    cursor: pointer;
+    color: var(--text3);
+    border: none;
+    background: none;
+    transition: color 0.2s;
+    position: relative;
+  }
+
+  .auth-tab::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 20%; right: 20%;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.25s;
+    border-radius: 2px;
+  }
+
+  .auth-tab.active { color: var(--accent); }
+  .auth-tab.active::after { transform: scaleX(1); }
+
+  /* BODY */
+  .auth-body { padding: 1.75rem; }
+
+  .auth-welcome {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .auth-logo-icon {
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+    margin: 0 auto 0.75rem;
+    box-shadow: 0 0 24px rgba(0,200,255,0.3);
+  }
+
+  .auth-welcome h2 {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+  }
+
+  .auth-welcome p {
+    font-size: 0.82rem;
+    color: var(--text2);
+  }
+
+  /* SOCIAL BUTTONS */
+  .social-auth-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: var(--font-head);
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 0.75rem;
+    border-radius: 10px;
+    border: 1px solid var(--border2);
+    background: var(--surface2);
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    margin-bottom: 0.75rem;
+    text-decoration: none;
+  }
+
+  .social-auth-btn:hover { transform: translateY(-1px); }
+
+  .social-auth-btn.google:hover  { border-color: #4285f4; background: rgba(66,133,244,0.1); }
+  .social-auth-btn.discord:hover { border-color: #5865f2; background: rgba(88,101,242,0.1); }
+
+  .social-auth-btn .btn-icon { font-size: 1.1rem; }
+
+  /* OR DIVIDER */
+  .auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1.1rem 0;
+    font-size: 0.75rem;
+    color: var(--text3);
+    font-family: var(--font-head);
+    letter-spacing: 0.1em;
+  }
+
+  .auth-divider::before,
+  .auth-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* FORM FIELDS */
+  .auth-field { margin-bottom: 1rem; }
+
+  .auth-field label {
+    display: block;
+    font-family: var(--font-head);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin-bottom: 0.4rem;
+  }
+
+  .auth-field input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 0.7rem 1rem;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .auth-field input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,200,255,0.1);
+  }
+
+  .auth-field input::placeholder { color: var(--text3); }
+
+  /* Password wrapper */
+  .pass-wrap { position: relative; }
+  .pass-toggle {
+    position: absolute;
+    right: 0.85rem; top: 50%;
+    transform: translateY(-50%);
+    background: none; border: none;
+    color: var(--text3); cursor: pointer;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+  .pass-toggle:hover { color: var(--accent); }
+
+  /* Forgot link */
+  .auth-forgot {
+    display: block;
+    text-align: right;
+    font-size: 0.75rem;
+    color: var(--accent);
+    text-decoration: none;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+    font-family: var(--font-head);
+    letter-spacing: 0.04em;
+  }
+
+  /* Submit button */
+  .auth-submit {
+    width: 100%;
+    font-family: var(--font-head);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 0.8rem;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    color: #fff;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .auth-submit:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  .auth-submit::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+    pointer-events: none;
+  }
+
+  /* Switch panel text */
+  .auth-switch {
+    text-align: center;
+    margin-top: 1.25rem;
+    font-size: 0.82rem;
+    color: var(--text2);
+  }
+
+  .auth-switch button {
+    background: none; border: none;
+    color: var(--accent);
+    font-family: var(--font-head);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Terms note */
+  .auth-terms {
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--text3);
+    margin-top: 1rem;
+    line-height: 1.5;
+  }
+
+  .auth-terms a { color: var(--accent); text-decoration: none; }
+
+  /* Error message */
+  .auth-error {
+    display: none;
+    background: rgba(255,71,87,0.1);
+    border: 1px solid rgba(255,71,87,0.3);
+    border-radius: 8px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.8rem;
+    color: #ff4757;
+    margin-bottom: 1rem;
+    font-family: var(--font-head);
+    letter-spacing: 0.03em;
+  }
+
+  /* Success state */
+  .auth-success {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1.75rem 2.5rem;
+    gap: 0.75rem;
+  }
+
+  .auth-success-icon {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: rgba(0,214,143,0.1);
+    border: 2px solid #00d68f;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem;
+    color: #00d68f;
+    animation: modalPop 0.3s ease;
+  }
+
+  .auth-success h3 {
+    font-family: var(--font-head);
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: #00d68f;
+  }
+
+  .auth-success p {
+    font-size: 0.85rem;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+
+  /* User avatar in topbar after login */
+  .user-avatar {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 4px 10px 4px 4px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    transition: border-color 0.2s;
+  }
+
+  .user-avatar:hover { border-color: var(--accent); }
+
+  .user-avatar-img {
+    width: 30px; height: 30px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    font-family: var(--font-head);
+  }
+
+  .user-avatar-name {
+    font-family: var(--font-head);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text);
+  }
+</style>
+
+<!-- LOGIN MODAL HTML -->
+<div class="auth-overlay" id="authOverlay" onclick="handleOverlayClick(event)">
+  <div class="auth-modal" id="authModal">
+    <button class="auth-close" onclick="closeAuth()">✕</button>
+
+    <!-- TABS -->
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">LOGIN</button>
+      <button class="auth-tab" id="tabRegister" onclick="switchTab('register')">REGISTER</button>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div class="auth-success" id="authSuccess">
+      <div class="auth-success-icon">✓</div>
+      <h3 id="successTitle">Welcome Back!</h3>
+      <p id="successMsg">You have successfully logged in to Usairim Gaming.</p>
+    </div>
+
+    <!-- BODY -->
+    <div class="auth-body" id="authBody">
+
+      <div class="auth-welcome">
+        <div class="auth-logo-icon">🎮</div>
+        <h2 id="authTitle">Welcome Back</h2>
+        <p id="authSubtitle">Login to your Usairim Gaming account</p>
+      </div>
+
+      <!-- GOOGLE -->
+      <button class="social-auth-btn google" onclick="loginWithGoogle()">
+        <span class="btn-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
+        </span>
+        Continue with Google
+      </button>
+
+      <!-- DISCORD -->
+      <button class="social-auth-btn discord" onclick="loginWithDiscord()">
+        <span class="btn-icon">
+          <svg width="18" height="14" viewBox="0 0 18 14" fill="#5865F2"><path d="M15.247 1.182A14.738 14.738 0 0 0 11.48 0c-.172.31-.372.727-.51 1.057a13.666 13.666 0 0 0-3.942 0A11.42 11.42 0 0 0 6.515 0a14.8 14.8 0 0 0-3.77 1.185C.386 4.538-.237 7.81.075 11.037a14.9 14.9 0 0 0 4.52 2.293 11.3 11.3 0 0 0 .97-1.588 9.66 9.66 0 0 1-1.528-.737c.128-.094.254-.192.375-.292a10.6 10.6 0 0 0 9.176 0c.122.1.248.198.375.292a9.69 9.69 0 0 1-1.531.739c.28.558.607 1.09.972 1.587a14.86 14.86 0 0 0 4.524-2.292c.37-3.9-.63-7.141-2.681-10.857zM6.007 9.045c-.85 0-1.549-.787-1.549-1.752s.683-1.754 1.549-1.754c.865 0 1.562.788 1.549 1.754 0 .965-.683 1.752-1.549 1.752zm5.986 0c-.85 0-1.549-.787-1.549-1.752s.683-1.754 1.549-1.754c.866 0 1.562.788 1.549 1.754 0 .965-.68 1.752-1.549 1.752z"/></svg>
+        </span>
+        Continue with Discord
+      </button>
+
+      <div class="auth-divider">OR</div>
+
+      <!-- ERROR BOX -->
+      <div class="auth-error" id="authError"></div>
+
+      <!-- LOGIN FORM -->
+      <div id="loginForm">
+        <div class="auth-field">
+          <label>Email Address</label>
+          <input type="email" id="loginEmail" placeholder="you@example.com">
+        </div>
+        <div class="auth-field">
+          <label>Password</label>
+          <div class="pass-wrap">
+            <input type="password" id="loginPass" placeholder="Enter your password">
+            <button class="pass-toggle" onclick="togglePass('loginPass', this)">👁</button>
+          </div>
+        </div>
+        <a href="#" class="auth-forgot">Forgot password?</a>
+        <button class="auth-submit" onclick="loginManual()">LOGIN TO USAIRIM GAMING</button>
+        <div class="auth-switch">
+          Don't have an account?
+          <button onclick="switchTab('register')">Create one →</button>
+        </div>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div id="registerForm" style="display:none;">
+        <div class="auth-field">
+          <label>Username</label>
+          <input type="text" id="regUsername" placeholder="YourGamerTag">
+        </div>
+        <div class="auth-field">
+          <label>Email Address</label>
+          <input type="email" id="regEmail" placeholder="you@example.com">
+        </div>
+        <div class="auth-field">
+          <label>Password</label>
+          <div class="pass-wrap">
+            <input type="password" id="regPass" placeholder="Min. 8 characters">
+            <button class="pass-toggle" onclick="togglePass('regPass', this)">👁</button>
+          </div>
+        </div>
+        <div class="auth-field">
+          <label>Confirm Password</label>
+          <div class="pass-wrap">
+            <input type="password" id="regPass2" placeholder="Repeat your password">
+            <button class="pass-toggle" onclick="togglePass('regPass2', this)">👁</button>
+          </div>
+        </div>
+        <button class="auth-submit" onclick="registerManual()">CREATE ACCOUNT</button>
+        <div class="auth-switch">
+          Already have an account?
+          <button onclick="switchTab('login')">Login →</button>
+        </div>
+        <div class="auth-terms">
+          By registering you agree to our <a href="#">Terms</a> &amp; <a href="#">Privacy Policy</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Google Identity Services SDK -->
+<script src="https://accounts.google.com/gsi/client" async></script>
+
+<script>
+  /* ══════════════════════════════════════════
+     CONFIG
+  ══════════════════════════════════════════ */
+  const GOOGLE_CLIENT_ID = '101873625746-aob5pct9g71acmloveg4nm4gdp3bceg7.apps.googleusercontent.com';
+
+  // Discord OAuth — fill in your Discord App Client ID from discord.com/developers
+  const DISCORD_CLIENT_ID = 'YOUR_DISCORD_CLIENT_ID'; // ← paste Discord client ID here
+  const DISCORD_REDIRECT   = window.location.origin + window.location.pathname;
+
+  /* ══════════════════════════════════════════
+     MODAL OPEN / CLOSE
+  ══════════════════════════════════════════ */
+  function openAuth(tab = 'login') {
+    document.getElementById('authOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    switchTab(tab);
+    resetAuthState();
+  }
+
+  function closeAuth() {
+    document.getElementById('authOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('authOverlay')) closeAuth();
+  }
+
+  // ESC key
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAuth(); });
+
+  /* ══════════════════════════════════════════
+     TAB SWITCHING
+  ══════════════════════════════════════════ */
+  function switchTab(tab) {
+    const isLogin = tab === 'login';
+    document.getElementById('tabLogin').classList.toggle('active', isLogin);
+    document.getElementById('tabRegister').classList.toggle('active', !isLogin);
+    document.getElementById('loginForm').style.display    = isLogin ? 'block' : 'none';
+    document.getElementById('registerForm').style.display = isLogin ? 'none'  : 'block';
+    document.getElementById('authTitle').textContent    = isLogin ? 'Welcome Back'       : 'Create Account';
+    document.getElementById('authSubtitle').textContent = isLogin ? 'Login to your Usairim Gaming account' : 'Join the Usairim Gaming community';
+    hideError();
+  }
+
+  /* ══════════════════════════════════════════
+     ERROR / SUCCESS HELPERS
+  ══════════════════════════════════════════ */
+  function showError(msg) {
+    const el = document.getElementById('authError');
+    el.textContent = '⚠ ' + msg;
+    el.style.display = 'block';
+  }
+
+  function hideError() {
+    document.getElementById('authError').style.display = 'none';
+  }
+
+  function resetAuthState() {
+    document.getElementById('authSuccess').style.display = 'none';
+    document.getElementById('authBody').style.display = 'block';
+    hideError();
+  }
+
+  function showSuccess(name, subtitle) {
+    document.getElementById('authBody').style.display = 'none';
+    const s = document.getElementById('authSuccess');
+    s.style.display = 'flex';
+    document.getElementById('successTitle').textContent = 'Welcome, ' + name + '!';
+    document.getElementById('successMsg').textContent = subtitle;
+    // Update topbar after 1.5s and close modal
+    setTimeout(() => {
+      setLoggedIn(name);
+      closeAuth();
+    }, 1800);
+  }
+
+  /* ══════════════════════════════════════════
+     TOPBAR: LOGGED IN STATE
+  ══════════════════════════════════════════ */
+  function setLoggedIn(name) {
+    // Hide login/register buttons, show avatar
+    document.querySelectorAll('.btn-login, .btn-register').forEach(el => el.style.display = 'none');
+    let avatar = document.getElementById('userAvatarBtn');
+    if (!avatar) {
+      avatar = document.createElement('div');
+      avatar.id = 'userAvatarBtn';
+      avatar.className = 'user-avatar';
+      avatar.innerHTML = `
+        <div class="user-avatar-img">${name.charAt(0).toUpperCase()}</div>
+        <span class="user-avatar-name">${name.split(' ')[0]}</span>
+      `;
+      avatar.onclick = () => alert('Profile menu coming soon!');
+      document.querySelector('.topbar-actions').appendChild(avatar);
+    }
+    avatar.style.display = 'flex';
+  }
+
+  /* ══════════════════════════════════════════
+     PASS TOGGLE
+  ══════════════════════════════════════════ */
+  function togglePass(id, btn) {
+    const input = document.getElementById(id);
+    if (input.type === 'password') { input.type = 'text'; btn.textContent = '🙈'; }
+    else { input.type = 'password'; btn.textContent = '👁'; }
+  }
+
+  /* ══════════════════════════════════════════
+     MANUAL LOGIN
+  ══════════════════════════════════════════ */
+  function loginManual() {
+    hideError();
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass  = document.getElementById('loginPass').value;
+    if (!email || !pass) { showError('Please fill in all fields.'); return; }
+    if (!/\S+@\S+\.\S+/.test(email)) { showError('Please enter a valid email address.'); return; }
+    if (pass.length < 6) { showError('Password must be at least 6 characters.'); return; }
+    // Simulate login (replace with your backend call)
+    const name = email.split('@')[0];
+    showSuccess(name, 'You are now logged in to Usairim Gaming.');
+  }
+
+  /* ══════════════════════════════════════════
+     MANUAL REGISTER
+  ══════════════════════════════════════════ */
+  function registerManual() {
+    hideError();
+    const username = document.getElementById('regUsername').value.trim();
+    const email    = document.getElementById('regEmail').value.trim();
+    const pass     = document.getElementById('regPass').value;
+    const pass2    = document.getElementById('regPass2').value;
+    if (!username || !email || !pass || !pass2) { showError('Please fill in all fields.'); return; }
+    if (username.length < 3) { showError('Username must be at least 3 characters.'); return; }
+    if (!/\S+@\S+\.\S+/.test(email)) { showError('Please enter a valid email address.'); return; }
+    if (pass.length < 8) { showError('Password must be at least 8 characters.'); return; }
+    if (pass !== pass2) { showError('Passwords do not match.'); return; }
+    showSuccess(username, 'Your Usairim Gaming account has been created!');
+  }
+
+  /* ══════════════════════════════════════════
+     GOOGLE LOGIN
+  ══════════════════════════════════════════ */
+  function loginWithGoogle() {
+    if (typeof google === 'undefined') {
+      showError('Google sign-in is loading, please try again in a moment.');
+      return;
+    }
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: handleGoogleResponse,
+      auto_select: false,
+    });
+    google.accounts.id.prompt((notification) => {
+      if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+        // Fallback: render a button popup
+        google.accounts.id.renderButton(
+          document.createElement('div'),
+          { theme: 'outline', size: 'large' }
+        );
+        google.accounts.id.prompt();
+      }
+    });
+  }
+
+  function handleGoogleResponse(response) {
+    // Decode the JWT to get user info
+    try {
+      const payload = JSON.parse(atob(response.credential.split('.')[1]));
+      showSuccess(payload.name || payload.email, 'Logged in with Google successfully!');
+    } catch(e) {
+      showError('Google sign-in failed. Please try again.');
+    }
+  }
+
+  // Init Google Sign-In once SDK loads
+  window.addEventListener('load', () => {
+    if (typeof google !== 'undefined') {
+      google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleResponse,
+      });
+    }
+  });
+
+  /* ══════════════════════════════════════════
+     DISCORD LOGIN
+  ══════════════════════════════════════════ */
+  function loginWithDiscord() {
+    if (DISCORD_CLIENT_ID === 'YOUR_DISCORD_CLIENT_ID') {
+      showError('Discord login not configured yet. Please use Google or manual login.');
+      return;
+    }
+    const scope = 'identify email';
+    const url = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(DISCORD_REDIRECT)}&response_type=token&scope=${encodeURIComponent(scope)}`;
+    window.location.href = url;
+  }
+
+  // Handle Discord redirect token
+  (function handleDiscordRedirect() {
+    const hash = window.location.hash;
+    if (hash.includes('access_token')) {
+      const params = new URLSearchParams(hash.substring(1));
+      const token  = params.get('access_token');
+      if (token) {
+        fetch('https://discord.com/api/users/@me', {
+          headers: { Authorization: 'Bearer ' + token }
+        })
+        .then(r => r.json())
+        .then(user => {
+          window.history.replaceState({}, '', window.location.pathname);
+          setLoggedIn(user.username || 'Gamer');
+        })
+        .catch(() => {});
+      }
+    }
+  })();
+
+  /* ══════════════════════════════════════════
+     WIRE UP LOGIN / REGISTER BUTTONS
+  ══════════════════════════════════════════ */
+  document.querySelectorAll('.btn-login').forEach(btn => {
+    btn.addEventListener('click', e => { e.preventDefault(); openAuth('login'); });
+  });
+  document.querySelectorAll('.btn-register').forEach(btn => {
+    btn.addEventListener('click', e => { e.preventDefault(); openAuth('register'); });
+  });
+  document.querySelectorAll('.m-login').forEach(btn => {
+    btn.addEventListener('click', e => { e.preventDefault(); toggleMobile(); openAuth('login'); });
+  });
+  document.querySelectorAll('.m-register').forEach(btn => {
+    btn.addEventListener('click', e => { e.preventDefault(); toggleMobile(); openAuth('register'); });
+  });
+</script>
+
+</body>
+</html>
